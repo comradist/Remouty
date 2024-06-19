@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ya0gZ8vsMQ8LaKY5jVcPh4iFvXEdLsZDGOW3xgdnrOlTwyX1HT3kJZ2w622OFH2WfPkt3X9LQWNTZUU9XsagFQ==",
+  "success": true,
+  "projectFilePath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.API/OutOfOffice.API.csproj",
+  "expectedPackageFiles": [
+    "/home/comrade/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "/home/comrade/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/home/comrade/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
+    "/home/comrade/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "/home/comrade/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "/home/comrade/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.4.0/swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
