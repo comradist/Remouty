@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using MyMind.Application.Contracts.Identity;
-using MyMind.Application.Models.Identity;
-using MyMind.Domain.ConfigurationModels;
-using MyMind.Identity.Service;
 
-namespace MyMind.Identity;
+using OutOfOffice.Identity.Service;
+using OutOfOffice.Application.Contracts.Identity;
+using OutOfOffice.Application.Models.Identity;
+using OutOfOffice.Domain.ConfigurationModels;
+
+namespace OutOfOffice.Identity;
 
 public static class IdentityServiceRegistration
 {
@@ -19,7 +20,7 @@ public static class IdentityServiceRegistration
         ConfigurationStrToIdentity configurationStrToIdentity = configuration.GetSection(ConfigurationStrToIdentity.Key).Get<ConfigurationStrToIdentity>()!;
         
         services.AddDbContext<RepositoryIdentityDbContext>(options =>
-            options.UseSqlite(configurationStrToIdentity.SqlConnectionToIdentityDb));
+            options.UseMySql(configurationStrToIdentity.SqlConnectionToIdentityDb, new MySqlServerVersion(new Version(8, 0, 26))));
 
         services.AddIdentity<User, IdentityRole>()
         .AddEntityFrameworkStores<RepositoryIdentityDbContext>()

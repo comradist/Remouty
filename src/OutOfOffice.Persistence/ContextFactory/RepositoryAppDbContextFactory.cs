@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using OutOfOffice.Persistence;
 
-namespace MyMind.Persistence.ContextFactory;
+namespace OutOfOffice.Persistence.ContextFactory;
 
-public class RepositoryNoteDbContextFactory : IDesignTimeDbContextFactory<RepositoryNoteDbContext>
+public class RepositoryAppDbContextFactory : IDesignTimeDbContextFactory<RepositoryOutOfOfficeDbContext>
 {
     // private readonly IOptionsMonitor<ConfigurationConStrToDbNote> options;
 
@@ -15,21 +16,20 @@ public class RepositoryNoteDbContextFactory : IDesignTimeDbContextFactory<Reposi
     //     this.options = options;
     // }
 
-    public RepositoryNoteDbContext CreateDbContext(string[] args)
+    public RepositoryOutOfOfficeDbContext CreateDbContext(string[] args)
     {
         // var builder = new DbContextOptionsBuilder<RepositoryNoteDbContext>();
         // builder.UseSqlite(options.CurrentValue.SqlConnectionToAppDb);
 
-        var configuration = new ConfigurationBuilder().SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "..", "MyMind.API"))
+        var configuration = new ConfigurationBuilder().SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "..", "OutOfOffice.API"))
             .AddJsonFile("appsettings.json")
             .Build();
-            
 
-        var builder = new DbContextOptionsBuilder<RepositoryNoteDbContext>();
-        builder.UseSqlite(configuration.GetConnectionString("SqlConnectionToAppDb"));
+        var builder = new DbContextOptionsBuilder<RepositoryOutOfOfficeDbContext>();
+        builder.UseMySql(configuration.GetConnectionString("SqlConnectionToAppDb"), new MySqlServerVersion(new Version(8, 0, 26)));
 
 
-        return new RepositoryNoteDbContext(builder.Options);
+        return new RepositoryOutOfOfficeDbContext(builder.Options);
     }
 }
 

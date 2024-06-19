@@ -1,14 +1,11 @@
 using System.Reflection;
-using MediatR;
+//using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyMind.Application.Contracts;
-using MyMind.Application.Contracts.Infrastructure;
-using MyMind.Application.Models.EmailEntities;
-using MyMind.Domain.ConfigurationModels;
 using MyMind.Infrastructure.Logger;
-using MyMind.Infrastructure.Mail;
 using NLog;
+using OutOfOffice.Application.Contracts.Infrastructure;
+using OutOfOffice.Domain.ConfigurationModels;
 
 namespace MyMind.Infrastructure;
 
@@ -21,8 +18,6 @@ public static class InfrastructureServiceRegistration
 
         services.AddSingleton<ILoggerManager, LoggerManager>();
 
-        services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
-        services.AddTransient<IEmailSender, EmailSender>();
 ;
         return services;
     }

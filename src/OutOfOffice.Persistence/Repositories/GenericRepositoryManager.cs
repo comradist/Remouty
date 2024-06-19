@@ -4,7 +4,7 @@ using MyMind.Persistence.Repositories.Common;
 using OutOfOffice.Application.Contracts.Persistence;
 using OutOfOffice.Persistence;
 
-namespace MyMind.Persistence.Repositories;
+namespace OutOfOffice.Persistence.Repositories;
 
 public abstract class GenericRepositoryManager<T, K> : RepositoryBase<T>, IGenericRepositoryManager<T, K> where T : class
 {

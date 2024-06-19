@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MyMind.Application.Models.Identity;
-using MyMind.Identity.Configuration;
+using OutOfOffice.Identity.Configuration;
+using OutOfOffice.Application.Models.Identity;
 
-namespace MyMind.Identity;
+namespace OutOfOffice.Identity;
 
 public class RepositoryIdentityDbContext : IdentityDbContext<User>
 {

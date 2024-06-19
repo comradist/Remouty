@@ -1,5 +1,6 @@
-using MyMind.Application.Contracts;
+
 using NLog;
+using OutOfOffice.Application.Contracts.Infrastructure;
 
 namespace MyMind.Infrastructure.Logger;
 

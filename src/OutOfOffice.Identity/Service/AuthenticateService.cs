@@ -1,18 +1,18 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using MyMind.Application.Contracts;
-using MyMind.Application.DTOs.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;  
 using Microsoft.Extensions.Options;
-using MyMind.Domain.ConfigurationModels;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
-using MyMind.Application.Contracts.Identity;
-using MyMind.Application.Models.Identity;
+using OutOfOffice.Application.Contracts.Identity;
+using OutOfOffice.Application.Models.Identity;
+using OutOfOffice.Domain.ConfigurationModels;
+using OutOfOffice.Application.Contracts.Infrastructure;
+using OutOfOffice.Application.DTOs.Identity;
 
-namespace MyMind.Identity.Service;
+namespace OutOfOffice.Identity.Service;
 
 public class AuthenticateService : IAuthenticateService
 {

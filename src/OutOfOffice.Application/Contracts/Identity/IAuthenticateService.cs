@@ -1,6 +1,4 @@
-
-
-namespace MyMind.Application.Contracts.Identity;
+namespace OutOfOffice.Application.Contracts.Identity;
 
 public interface IAuthenticateService
 {

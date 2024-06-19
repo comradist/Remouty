@@ -9,7 +9,7 @@ public class ApprovalRequest
     public Guid ApproverId { get; set; }
     public Employee Approver { get; set; }
 
-    public int LeaveRequestId { get; set; }
+    public Guid LeaveRequestId { get; set; }
     public LeaveRequest LeaveRequest { get; set; }
 
     public int StatusId { get; set; }

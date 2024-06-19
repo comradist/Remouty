@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "OutOfOffice.Domain/1.0.0": {
+        "runtime": {
+          "OutOfOffice.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "OutOfOffice.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

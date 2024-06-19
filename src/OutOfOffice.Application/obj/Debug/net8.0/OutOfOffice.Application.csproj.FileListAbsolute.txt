@@ -1,10 +1,15 @@
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/bin/Debug/net8.0/OutOfOffice.Application.deps.json
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/bin/Debug/net8.0/OutOfOffice.Application.dll
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/bin/Debug/net8.0/OutOfOffice.Application.pdb
+/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/bin/Debug/net8.0/OutOfOffice.Domain.dll
+/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/bin/Debug/net8.0/OutOfOffice.Domain.pdb
+/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/OutOfOffice.Application.csproj.AssemblyReference.cache
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/OutOfOffice.Application.GeneratedMSBuildEditorConfig.editorconfig
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/OutOfOffice.Application.AssemblyInfoInputs.cache
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/OutOfOffice.Application.AssemblyInfo.cs
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/OutOfOffice.Application.csproj.CoreCompileInputs.cache
+/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/OutOfOffice.Application.sourcelink.json
+/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/OutOfOffice.Application.csproj.CopyComplete
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/OutOfOffice.Application.dll
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/refint/OutOfOffice.Application.dll
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/OutOfOffice.Application.pdb
