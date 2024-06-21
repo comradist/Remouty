@@ -2,12 +2,12 @@ using System.Reflection;
 //using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyMind.Infrastructure.Logger;
+using OutOfOffice.Infrastructure.Logger;
 using NLog;
-using OutOfOffice.Application.Contracts.Infrastructure;
 using OutOfOffice.Domain.ConfigurationModels;
+using OutOfOffice.Contracts.Infrastructure;
 
-namespace MyMind.Infrastructure;
+namespace OutOfOffice.Infrastructure;
 
 public static class InfrastructureServiceRegistration
 {

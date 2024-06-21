@@ -1,8 +1,7 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using MyMind.Persistence.Repositories.Common;
-using OutOfOffice.Application.Contracts.Persistence;
-using OutOfOffice.Persistence;
+using OutOfOffice.Contracts.Persistence;
+using OutOfOffice.Persistence.Repositories.Common;
 
 namespace OutOfOffice.Persistence.Repositories;
 
@@ -12,7 +11,7 @@ public abstract class GenericRepositoryManager<T, K> : RepositoryBase<T>, IGener
     {
     }
 
-    public async Task<T> Get(Expression<Func<T, bool>> expression, bool trackChanges)
+    public async Task<T> GetByConditionAsync(Expression<Func<T, bool>> expression, bool trackChanges)
     {
         return await FindByCondition(expression, trackChanges).FirstOrDefaultAsync();
     }
@@ -22,7 +21,7 @@ public abstract class GenericRepositoryManager<T, K> : RepositoryBase<T>, IGener
         return await FindAll(false).ToListAsync();
     }
 
-    public async Task CreateAsync(T entity)
+    public async override Task CreateAsync(T entity)
     {
         await base.CreateAsync(entity);
         await SaveChangesAsync();

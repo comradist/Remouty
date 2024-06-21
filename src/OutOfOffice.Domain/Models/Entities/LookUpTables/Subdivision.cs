@@ -1,6 +1,8 @@
+using OutOfOffice.Domain.Models.Entities.Common;
+
 namespace OutOfOffice.Domain.Models.Entities.LookUpTables;
 
-public class Subdivision : BaseEntity
+public class Subdivision : LookUpBaseEntity
 {
 
 }

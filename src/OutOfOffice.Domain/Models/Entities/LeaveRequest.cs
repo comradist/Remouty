@@ -1,11 +1,10 @@
+using OutOfOffice.Domain.Models.Entities.Common;
 using OutOfOffice.Domain.Models.Entities.LookUpTables;
 
 namespace OutOfOffice.Domain.Models.Entities;
 
-public class LeaveRequest
+public class LeaveRequest : BaseEntity
 {
-    public Guid Id { get; set; }
-
     public Guid EmployeeId { get; set; }
     public Employee Employee { get; set; }
 

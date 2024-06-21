@@ -7,9 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 using OutOfOffice.Identity.Service;
-using OutOfOffice.Application.Contracts.Identity;
-using OutOfOffice.Application.Models.Identity;
 using OutOfOffice.Domain.ConfigurationModels;
+using OutOfOffice.Identity.Models;
+using OutOfOffice.Contracts.Identity;
 
 namespace OutOfOffice.Identity;
 

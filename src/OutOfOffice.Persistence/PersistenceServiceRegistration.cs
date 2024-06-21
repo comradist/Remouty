@@ -2,7 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using OutOfOffice.Contracts.Persistence;
 using OutOfOffice.Domain.ConfigurationModels;
+using OutOfOffice.Persistence.Repositories;
 
 namespace OutOfOffice.Persistence;
 
@@ -14,7 +16,11 @@ public static class PersistenceServiceRegistration
         services.AddDbContext<RepositoryOutOfOfficeDbContext>(options =>
             options.UseMySql(configurationConStrToDbNote.SqlConnectionToAppDb, new MySqlServerVersion(new Version(8, 0, 26))));
 
-        //services.AddScoped<INoteRepository, NoteRepository>();
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+        services.AddScoped<IApprovalRequestRepository, ApprovalRequestRepository>();
+        services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
+
 
         return services;
     }

@@ -16,7 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OutOfOffice.Infrastructure\OutOfOffice.Infrastructure.csproj" />
+    <ProjectReference Include="..\OutOfOffice.Shared\OutOfOffice.Shared.csproj" />
+    <ProjectReference Include="..\OutOfOffice.Contracts\OutOfOffice.Contracts.csproj" />
   </ItemGroup>
 
 

@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using MyMind.Contract.Persistences;
+using OutOfOffice.Contract.Persistences;
 using OutOfOffice.Persistence;
 
-namespace MyMind.Persistence.Repositories.Common;
+namespace OutOfOffice.Persistence.Repositories.Common;
 
 public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
@@ -24,7 +24,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
         return !trackChanges ? repositoryAppDbContext.Set<T>().Where(expression).AsNoTracking() : repositoryAppDbContext.Set<T>().Where(expression);
     }
 
-    public async Task CreateAsync(T entity)
+    public async virtual Task CreateAsync(T entity)
     {
         await repositoryAppDbContext.Set<T>().AddAsync(entity);
     }

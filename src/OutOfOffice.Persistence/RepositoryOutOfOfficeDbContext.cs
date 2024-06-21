@@ -67,19 +67,19 @@ public class RepositoryOutOfOfficeDbContext : DbContext
         modelBuilder.Entity<Employee>()
             .HasOne(e => e.Subdivision)
             .WithMany()
-            .HasForeignKey(e => e.SubdivisionID)
+            .HasForeignKey(e => e.SubdivisionId)
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Employee>()
             .HasOne(e => e.Status)
             .WithMany()
-            .HasForeignKey(e => e.StatusID)
+            .HasForeignKey(e => e.StatusId)
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Employee>()
             .HasOne(e => e.Position)
             .WithMany()
-            .HasForeignKey(e => e.PositionID)
+            .HasForeignKey(e => e.PositionId)
             .OnDelete(DeleteBehavior.Restrict);
 
         // LeaveRequest configuration

@@ -4,14 +4,14 @@
     "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Persistence/OutOfOffice.Persistence.csproj": {}
   },
   "projects": {
-    "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/OutOfOffice.Application.csproj": {
+    "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Contracts/OutOfOffice.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/OutOfOffice.Application.csproj",
-        "projectName": "OutOfOffice.Application",
-        "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/OutOfOffice.Application.csproj",
+        "projectUniqueName": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Contracts/OutOfOffice.Contracts.csproj",
+        "projectName": "OutOfOffice.Contracts",
+        "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Contracts/OutOfOffice.Contracts.csproj",
         "packagesPath": "/home/comrade/.nuget/packages/",
-        "outputPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/",
+        "outputPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Contracts/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/comrade/.nuget/NuGet/NuGet.Config"
@@ -28,6 +28,9 @@
             "projectReferences": {
               "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Domain/OutOfOffice.Domain.csproj": {
                 "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Domain/OutOfOffice.Domain.csproj"
+              },
+              "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Shared/OutOfOffice.Shared.csproj": {
+                "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Shared/OutOfOffice.Shared.csproj"
               }
             }
           }
@@ -41,24 +44,6 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "dependencies": {
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[12.0.1, )"
-            },
-            "FluentValidation.DependencyInjectionExtensions": {
-              "target": "Package",
-              "version": "[11.9.0, )"
-            },
-            "MediatR.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[11.1.0, )"
-            },
-            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.5, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -132,91 +117,6 @@
         }
       }
     },
-    "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Infrastructure/OutOfOffice.Infrastructure.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Infrastructure/OutOfOffice.Infrastructure.csproj",
-        "projectName": "OutOfOffice.Infrastructure",
-        "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Infrastructure/OutOfOffice.Infrastructure.csproj",
-        "packagesPath": "/home/comrade/.nuget/packages/",
-        "outputPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Infrastructure/obj/",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "/home/comrade/.nuget/NuGet/NuGet.Config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {
-              "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/OutOfOffice.Application.csproj": {
-                "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/OutOfOffice.Application.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "dependencies": {
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.4, )"
-            },
-            "Microsoft.Extensions.Configuration": {
-              "target": "Package",
-              "version": "[8.0.0, )"
-            },
-            "Microsoft.Extensions.Configuration.Json": {
-              "target": "Package",
-              "version": "[8.0.0, )"
-            },
-            "Microsoft.Extensions.Options.ConfigurationExtensions": {
-              "target": "Package",
-              "version": "[8.0.0, )"
-            },
-            "NLog.Web.AspNetCore": {
-              "target": "Package",
-              "version": "[5.3.9, )"
-            },
-            "Pomelo.EntityFrameworkCore.MySql": {
-              "target": "Package",
-              "version": "[8.0.2, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.105/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
     "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Persistence/OutOfOffice.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -239,8 +139,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Infrastructure/OutOfOffice.Infrastructure.csproj": {
-                "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Infrastructure/OutOfOffice.Infrastructure.csproj"
+              "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Contracts/OutOfOffice.Contracts.csproj": {
+                "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Contracts/OutOfOffice.Contracts.csproj"
+              },
+              "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Shared/OutOfOffice.Shared.csproj": {
+                "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Shared/OutOfOffice.Shared.csproj"
               }
             }
           }
@@ -264,6 +167,105 @@
             "Microsoft.Extensions.Options.ConfigurationExtensions": {
               "target": "Package",
               "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.105/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Shared/OutOfOffice.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Shared/OutOfOffice.Shared.csproj",
+        "projectName": "OutOfOffice.Shared",
+        "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Shared/OutOfOffice.Shared.csproj",
+        "packagesPath": "/home/comrade/.nuget/packages/",
+        "outputPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Shared/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/comrade/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Domain/OutOfOffice.Domain.csproj": {
+                "projectPath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Domain/OutOfOffice.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[11.9.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.5, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Options.ConfigurationExtensions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "NLog.Web.AspNetCore": {
+              "target": "Package",
+              "version": "[5.3.9, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
             }
           },
           "imports": [

@@ -1,5 +1,4 @@
-
-using OutOfOffice.Application.Interfaces;
+using OutOfOffice.Contracts.Persistence;
 using OutOfOffice.Domain.Models.Entities;
 
 namespace OutOfOffice.Persistence.Repositories;

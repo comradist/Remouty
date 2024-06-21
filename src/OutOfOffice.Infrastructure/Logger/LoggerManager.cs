@@ -1,8 +1,8 @@
 
 using NLog;
-using OutOfOffice.Application.Contracts.Infrastructure;
+using OutOfOffice.Contracts.Infrastructure;
 
-namespace MyMind.Infrastructure.Logger;
+namespace OutOfOffice.Infrastructure.Logger;
 
 public class LoggerManager : ILoggerManager
 {

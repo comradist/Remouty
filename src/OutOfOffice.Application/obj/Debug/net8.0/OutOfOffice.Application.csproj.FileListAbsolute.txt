@@ -14,3 +14,7 @@
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/refint/OutOfOffice.Application.dll
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/OutOfOffice.Application.pdb
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/obj/Debug/net8.0/ref/OutOfOffice.Application.dll
+/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/bin/Debug/net8.0/OutOfOffice.Contracts.dll
+/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/bin/Debug/net8.0/OutOfOffice.Shared.dll
+/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/bin/Debug/net8.0/OutOfOffice.Contracts.pdb
+/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Application/bin/Debug/net8.0/OutOfOffice.Shared.pdb

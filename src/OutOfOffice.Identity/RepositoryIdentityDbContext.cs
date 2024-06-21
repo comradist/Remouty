@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OutOfOffice.Identity.Configuration;
-using OutOfOffice.Application.Models.Identity;
+using OutOfOffice.Identity.Models;
 
 namespace OutOfOffice.Identity;
 

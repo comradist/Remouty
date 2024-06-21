@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace MyMind.Contract.Persistences;
+namespace OutOfOffice.Contract.Persistences;
 
 public interface IRepositoryBase<T> where T : class
 {

@@ -1,16 +1,17 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;  
+using System.Text;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
-using OutOfOffice.Application.Contracts.Identity;
-using OutOfOffice.Application.Models.Identity;
+
 using OutOfOffice.Domain.ConfigurationModels;
-using OutOfOffice.Application.Contracts.Infrastructure;
-using OutOfOffice.Application.DTOs.Identity;
+using OutOfOffice.Identity.Models;
+using OutOfOffice.Contracts.Infrastructure;
+using OutOfOffice.Shared.DTOs.Identity;
+using OutOfOffice.Contracts.Identity;
 
 namespace OutOfOffice.Identity.Service;
 
