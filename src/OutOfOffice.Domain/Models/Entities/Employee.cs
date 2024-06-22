@@ -16,10 +16,14 @@ public class Employee : BaseEntity
     public int StatusId { get; set; }
     public RequestStatus Status { get; set; }
 
-    public Guid PeoplePartnerId { get; set; }
+    public Guid? PeoplePartnerId { get; set; }
     public Employee PeoplePartner { get; set; }
 
     public int OutOfOfficeBalance { get; set; }
 
-    public byte[] Photo { get; set; }
+    public byte[]? Photo { get; set; }
+
+    public ICollection<ProjectEmployee> ProjectEmployees { get; set; } = new List<ProjectEmployee>();
+
+
 }

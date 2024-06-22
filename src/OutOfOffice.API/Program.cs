@@ -12,6 +12,8 @@ builder.Services.ConfigurePersistenceServices(builder.Configuration);
 builder.Services.ConfigureInfrastructureServices(builder.Configuration);
 builder.Services.ConfigureIdentityService(builder.Configuration);
 
+builder.Services.ConfigureValidationFilterAttribute();
+
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();

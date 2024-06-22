@@ -19,4 +19,6 @@ public class Project : BaseEntity
     
     public int StatusId { get; set; }
     public ProjectStatus Status { get; set; }
+
+    public ICollection<ProjectEmployee> ProjectEmployees { get; set; } = new List<ProjectEmployee>();
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "aMIoxzWKCzc/Pu4BjABWOEG9IqYk9+4hQFgcSuMytANt73hFOH4M2evdg/rNBBkpAt+bdFQ02Dxyiw/rrmotxA==",
+  "dgSpecHash": "a2MIfbtWJdDSop8w2xdoLUDWZncCKoEah9qut62NaQIIN+gO/g8CVwu/fEDVs//9ULNIYn7dmOKzR8gdfx9fvQ==",
   "success": true,
   "projectFilePath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Identity/OutOfOffice.Identity.csproj",
   "expectedPackageFiles": [
@@ -74,6 +74,7 @@
     "/home/comrade/.nuget/packages/system.composition.typedparts/6.0.0/system.composition.typedparts.6.0.0.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.identitymodel.tokens.jwt/7.6.0/system.identitymodel.tokens.jwt.7.6.0.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.io.pipelines/6.0.3/system.io.pipelines.6.0.3.nupkg.sha512",
+    "/home/comrade/.nuget/packages/system.linq.dynamic.core/1.4.1/system.linq.dynamic.core.1.4.1.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.reflection.metadata/6.0.1/system.reflection.metadata.6.0.1.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.text.encoding.codepages/6.0.0/system.text.encoding.codepages.6.0.0.nupkg.sha512",

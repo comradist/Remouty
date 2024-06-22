@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "q7Rg2bOsOq2HGSvUPLMv60xiCoBYgmeS+zErcbyDQjXz7bbvoUeckzoU3TTSugn19Q/juHh0G7QFtr4WF0yhUw==",
+  "dgSpecHash": "pahHPhG6VhN9QZVpxPDzIGgqBNnH0kzT/ny4FHY20MpSYbzCHStVOLkf1xXlAxxDTmNBXXSkvlYtmVypV11Lcw==",
   "success": true,
   "projectFilePath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Persistence/OutOfOffice.Persistence.csproj",
   "expectedPackageFiles": [
@@ -66,6 +66,7 @@
     "/home/comrade/.nuget/packages/system.composition.runtime/6.0.0/system.composition.runtime.6.0.0.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.composition.typedparts/6.0.0/system.composition.typedparts.6.0.0.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.io.pipelines/6.0.3/system.io.pipelines.6.0.3.nupkg.sha512",
+    "/home/comrade/.nuget/packages/system.linq.dynamic.core/1.4.1/system.linq.dynamic.core.1.4.1.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.reflection.metadata/6.0.1/system.reflection.metadata.6.0.1.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.text.encoding.codepages/6.0.0/system.text.encoding.codepages.6.0.0.nupkg.sha512",

@@ -77,3 +77,4 @@
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.API/obj/Debug/net8.0/OutOfOffice.API.pdb
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.API/obj/Debug/net8.0/OutOfOffice.API.genruntimeconfig.cache
 /home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.API/obj/Debug/net8.0/ref/OutOfOffice.API.dll
+/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.API/bin/Debug/net8.0/System.Linq.Dynamic.Core.dll

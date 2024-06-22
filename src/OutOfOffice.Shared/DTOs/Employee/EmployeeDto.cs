@@ -13,9 +13,9 @@ public class EmployeeDto : BaseDto
 
     public RequestStatus Status { get; set; }
 
-    public EmployeeDto PeoplePartner { get; set; }
+    public EmployeeDto? PeoplePartner { get; set; }
 
     public int OutOfOfficeBalance { get; set; }
 
-    public byte[] Photo { get; set; }
+    public byte[]? Photo { get; set; }
 }

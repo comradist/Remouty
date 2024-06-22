@@ -362,6 +362,14 @@
           }
         }
       },
+      "System.Linq.Dynamic.Core/1.4.1": {
+        "runtime": {
+          "lib/net8.0/System.Linq.Dynamic.Core.dll": {
+            "assemblyVersion": "1.4.1.0",
+            "fileVersion": "1.4.1.0"
+          }
+        }
+      },
       "System.Text.Encodings.Web/8.0.0": {},
       "System.Text.Json/8.0.0": {
         "dependencies": {
@@ -385,7 +393,8 @@
           "Newtonsoft.Json": "13.0.3",
           "OutOfOffice.Domain": "1.0.0",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
-          "Swashbuckle.AspNetCore": "6.4.0"
+          "Swashbuckle.AspNetCore": "6.4.0",
+          "System.Linq.Dynamic.Core": "1.4.1"
         },
         "runtime": {
           "OutOfOffice.Shared.dll": {}
@@ -699,6 +708,13 @@
       "sha512": "sha512-1Hh3atb3pi8c+v7n4/3N80Jj8RvLOXgWxzix6w3OZhB7zBGRwsy7FWr4e3hwgPweSBpwfElqj4V4nkjYabH9nQ==",
       "path": "swashbuckle.aspnetcore.swaggerui/6.4.0",
       "hashPath": "swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+    },
+    "System.Linq.Dynamic.Core/1.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GpltaPbBODbDQh2RtTc/PvjYg0eGzntznrU0tZmVf/RZrig0SWAwKx2pxj9YbDqb4p2ZsNJhHH1v7e1+d3iUdg==",
+      "path": "system.linq.dynamic.core/1.4.1",
+      "hashPath": "system.linq.dynamic.core.1.4.1.nupkg.sha512"
     },
     "System.Text.Encodings.Web/8.0.0": {
       "type": "package",

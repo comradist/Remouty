@@ -3,10 +3,11 @@ using MediatR;
 using OutOfOffice.Application.Features.Employees.Requests.Commands;
 using OutOfOffice.Contracts.Persistence;
 using OutOfOffice.Domain.Models.Entities;
+using OutOfOffice.Shared.DTOs.Employee;
 
 namespace OutOfOffice.Application.Features.Employees.Handlers.Commands;
 
-public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, Guid>
+public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, EmployeeDto>
 {
     private readonly IEmployeeRepository employeeRepository;
     private readonly IMapper mapper;
@@ -17,7 +18,7 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
         this.mapper = mapper;
     }
 
-    public async Task<Guid> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
+    public async Task<EmployeeDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
         
         // var validator = new CreateNoteDtoValidator();
@@ -29,10 +30,17 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
 
         //await validator.ValidateAndThrowAsync(request.NoteDto, cancellationToken: cancellationToken);
 
+        if(request.EmployeeDto.PeoplePartnerId == Guid.Empty)
+        {
+            request.EmployeeDto.PeoplePartnerId = null;
+        }
+
         var employee = mapper.Map<Employee>(request.EmployeeDto);
 
         await employeeRepository.CreateAsync(employee);
 
-        return employee.Id;
+        var employeeDto = mapper.Map<EmployeeDto>(employee);
+
+        return employeeDto;
     }
 }

@@ -713,6 +713,14 @@
         }
       },
       "System.IO.Pipelines/6.0.3": {},
+      "System.Linq.Dynamic.Core/1.4.1": {
+        "runtime": {
+          "lib/net8.0/System.Linq.Dynamic.Core.dll": {
+            "assemblyVersion": "1.4.1.0",
+            "fileVersion": "1.4.1.0"
+          }
+        }
+      },
       "System.Reflection.Metadata/6.0.1": {
         "dependencies": {
           "System.Collections.Immutable": "6.0.0"
@@ -757,7 +765,8 @@
           "Newtonsoft.Json": "13.0.3",
           "OutOfOffice.Domain": "1.0.0",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
-          "Swashbuckle.AspNetCore": "6.4.0"
+          "Swashbuckle.AspNetCore": "6.4.0",
+          "System.Linq.Dynamic.Core": "1.4.1"
         },
         "runtime": {
           "OutOfOffice.Shared.dll": {}
@@ -1204,6 +1213,13 @@
       "sha512": "sha512-ryTgF+iFkpGZY1vRQhfCzX0xTdlV3pyaTTqRu2ETbEv+HlV7O6y7hyQURnghNIXvctl5DuZ//Dpks6HdL/Txgw==",
       "path": "system.io.pipelines/6.0.3",
       "hashPath": "system.io.pipelines.6.0.3.nupkg.sha512"
+    },
+    "System.Linq.Dynamic.Core/1.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GpltaPbBODbDQh2RtTc/PvjYg0eGzntznrU0tZmVf/RZrig0SWAwKx2pxj9YbDqb4p2ZsNJhHH1v7e1+d3iUdg==",
+      "path": "system.linq.dynamic.core/1.4.1",
+      "hashPath": "system.linq.dynamic.core.1.4.1.nupkg.sha512"
     },
     "System.Reflection.Metadata/6.0.1": {
       "type": "package",

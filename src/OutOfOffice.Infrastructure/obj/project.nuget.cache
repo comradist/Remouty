@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "AMgQKHzLI0d7/fusYy8NXZAsKtSAwNRO4ysvYdepm0exfmS3Vgf9ZY9mcwj2ok1Kezo/3dHTD9lzj9s6cE7Gyg==",
+  "dgSpecHash": "UM5bEH4cw65UrdPeQB+T1gOS0+Hls5qt/O/7UlU6rf4351GpJXJaeo5Yj3d48ep7SD6R99E9DMLIfNMz8YGSfw==",
   "success": true,
   "projectFilePath": "/home/comrade/Documents/Project/OutOfOffice/src/OutOfOffice.Infrastructure/OutOfOffice.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -47,6 +47,7 @@
     "/home/comrade/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "/home/comrade/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
     "/home/comrade/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.4.0/swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512",
+    "/home/comrade/.nuget/packages/system.linq.dynamic.core/1.4.1/system.linq.dynamic.core.1.4.1.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.text.encodings.web/8.0.0/system.text.encodings.web.8.0.0.nupkg.sha512",
     "/home/comrade/.nuget/packages/system.text.json/8.0.0/system.text.json.8.0.0.nupkg.sha512"
   ],

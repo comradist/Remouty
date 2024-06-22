@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using OutOfOffice.API.Presentation.ActionFilters;
 using OutOfOffice.Domain.ConfigurationModels;
 
 namespace OutOfOffice.API.Extensions;
@@ -23,6 +24,9 @@ public static class ApiServiceRegistration
                 .AllowAnyHeader());
         });
     }
+
+    public static void ConfigureValidationFilterAttribute(this IServiceCollection services) =>
+        services.AddScoped<ValidationFilterAttribute>();
 
 
     // public static OptionsBuilder<ConfigurationConStrToDbNote> ConfigureOptionsDbNote (this IServiceCollection services, IConfiguration configuration)
@@ -64,6 +68,6 @@ public static class ApiServiceRegistration
     //                 .ValidateDataAnnotations()
     //                 .ValidateOnStart();
     // }
-    
+
 
 }

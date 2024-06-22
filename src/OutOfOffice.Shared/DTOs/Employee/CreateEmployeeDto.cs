@@ -2,7 +2,7 @@ using OutOfOffice.Shared.DTOs.Common;
 
 namespace OutOfOffice.Shared.DTOs.Employee;
 
-public class CreateEmployeeDto : BaseDto
+public class CreateEmployeeDto
 {
     public string FullName { get; set; }
 
@@ -12,9 +12,9 @@ public class CreateEmployeeDto : BaseDto
 
     public int StatusID { get; set; }
 
-    public Guid PeoplePartnerId { get; set; }
+    public Guid? PeoplePartnerId { get; set; }
 
     public int OutOfOfficeBalance { get; set; }
 
-    public byte[] Photo { get; set; }
+    public byte[]? Photo { get; set; }
 }

@@ -16,4 +16,6 @@ public class EmployeeRepository : GenericRepositoryManager<Employee, Guid>, IEmp
         return await GetByConditionAsync(x => x.Id.Equals(id), trackChanges);
     }
 
+
+
 }

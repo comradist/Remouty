@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OutOfOffice.Domain.Models.Entities;
 using OutOfOffice.Domain.Models.Entities.LookUpTables;
+using OutOfOffice.Persistence.Configuration;
 
 
 namespace OutOfOffice.Persistence;
@@ -38,6 +39,7 @@ public class RepositoryOutOfOfficeDbContext : DbContext
     {
         //base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryOutOfOfficeDbContext).Assembly);
+        modelBuilder.LookUpTableConfiguration();
 
         modelBuilder.Entity<LeaveRequest>()
             .Property(x => x.StartDate)
@@ -64,6 +66,15 @@ public class RepositoryOutOfOfficeDbContext : DbContext
                 x => DateTime.Parse(x));
 
         // Employee configuration
+        modelBuilder.Entity<Employee>()
+            .Navigation(e => e.Subdivision).AutoInclude();
+        modelBuilder.Entity<Employee>()
+            .Navigation(e => e.Position).AutoInclude();
+        // modelBuilder.Entity<Employee>()
+        //     .Navigation(e => e.PeoplePartner).AutoInclude();
+        modelBuilder.Entity<Employee>()
+            .Navigation(e => e.Status).AutoInclude();
+
         modelBuilder.Entity<Employee>()
             .HasOne(e => e.Subdivision)
             .WithMany()
@@ -120,20 +131,34 @@ public class RepositoryOutOfOfficeDbContext : DbContext
             .WithMany()
             .HasForeignKey(p => p.StatusId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // ProjectEmployee configuration
+        modelBuilder.Entity<ProjectEmployee>()
+            .HasKey(pe => new { pe.ProjectId, pe.EmployeeId });
+
+        modelBuilder.Entity<ProjectEmployee>()
+            .HasOne(pe => pe.Project)
+            .WithMany(pe => pe.ProjectEmployees)
+            .HasForeignKey(pe => pe.ProjectId);
+
+        modelBuilder.Entity<ProjectEmployee>()
+            .HasOne(pe => pe.Employee)
+            .WithMany(pe => pe.ProjectEmployees)
+            .HasForeignKey(pe => pe.EmployeeId);
     }
 
     // public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     // {
-    //     // foreach(var entry in ChangeTracker.Entries<BaseDomainEntity>())
-    //     // {
-    //     //     entry.Entity.LastModifiedBy = "Comrade";
-    //     //     entry.Entity.LastModifiedData = DateTime.UtcNow;
-    //     //     if(entry.State == EntityState.Added)
-    //     //     {
-    //     //         entry.Entity.CreatedBy = "Comrade";
-    //     //         entry.Entity.DataCreated = DateTime.UtcNow;
-    //     //     }
-    //     // }
+        // foreach(var entry in ChangeTracker.Entries<BaseDomainEntity>())
+        // {
+        //     entry.Entity.LastModifiedBy = "Comrade";
+        //     entry.Entity.LastModifiedData = DateTime.UtcNow;
+        //     if(entry.State == EntityState.Added)
+        //     {
+        //         entry.Entity.CreatedBy = "Comrade";
+        //         entry.Entity.DataCreated = DateTime.UtcNow;
+        //     }
+        // }
 
     //     return base.SaveChangesAsync(cancellationToken);
     // }
