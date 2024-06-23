@@ -49,6 +49,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPut()]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeDto updateEmployeeDto)
     {
         await mediator.Send(new UpdateEmployeeCommand { UpdateEmployeeDto = updateEmployeeDto });

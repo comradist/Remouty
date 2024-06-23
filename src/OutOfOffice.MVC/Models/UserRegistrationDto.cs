@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OutOfOffice.Shared.DTOs.Identity;
 
-public class UserRegistrationDto
+public class UserRegistrationVM
 {
     public string FirstName { get; set; }
 

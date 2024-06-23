@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using OutOfOffice.API.Presentation.ActionFilters;
 using OutOfOffice.Contracts.Identity;
 using OutOfOffice.Contracts.Infrastructure;
 using OutOfOffice.Shared.DTOs.Identity;
@@ -20,6 +21,7 @@ public class AuthenticateController : ControllerBase
     }
 
     [HttpPost("register")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationDto userRegistrationDto)
     {
         var result = await authenticateService.RegisterUser(userRegistrationDto);
@@ -37,6 +39,7 @@ public class AuthenticateController : ControllerBase
     }
 
     [HttpPost("login")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Authenticate([FromBody] UserAuthenticationDto userAuthenticationDto)
     {
         if (!await authenticateService.ValidateUser(userAuthenticationDto))

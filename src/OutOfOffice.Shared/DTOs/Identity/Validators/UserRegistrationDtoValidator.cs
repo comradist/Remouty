@@ -21,6 +21,11 @@ public class UserRegistrationDtoValidator : AbstractValidator<UserRegistrationDt
             .NotNull()
             .MaximumLength(5000).WithMessage("{PropertyName} must not exceed 50 characters");
 
+        RuleFor(p => p.Role)
+            .NotEmpty().WithMessage("{PropertyName} is required")
+            .NotNull()
+            .MaximumLength(20).WithMessage("{PropertyName} must not exceed 20 characters");
+
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is required.")
             .MinimumLength(6).WithMessage("Password must be at least 6 characters long.")

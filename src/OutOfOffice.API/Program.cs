@@ -6,6 +6,8 @@ using OutOfOffice.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.ConfigureOptionsJwt(builder.Configuration);
+
 // Configure the services
 builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigurePersistenceServices(builder.Configuration);

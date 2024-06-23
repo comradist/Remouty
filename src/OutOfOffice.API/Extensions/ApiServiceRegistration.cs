@@ -37,13 +37,13 @@ public static class ApiServiceRegistration
     //                 .ValidateOnStart();
     // }
 
-    // public static OptionsBuilder<JwtConfiguration> ConfigureOptionsJwt(this IServiceCollection services, IConfiguration configuration)
-    // {
-    //     return services.AddOptions<JwtConfiguration>()
-    //                 .Bind(configuration.GetSection(JwtConfiguration.Key))
-    //                 .ValidateDataAnnotations()
-    //                 .ValidateOnStart();
-    // }
+    public static OptionsBuilder<JwtConfiguration> ConfigureOptionsJwt(this IServiceCollection services, IConfiguration configuration)
+    {
+        return services.AddOptions<JwtConfiguration>()
+                    .Bind(configuration.GetSection(JwtConfiguration.Key))
+                    .ValidateDataAnnotations()
+                    .ValidateOnStart();
+    }
 
     // public static OptionsBuilder<ConfigurationStrToIdentity> ConfigureOptionsIdentity(this IServiceCollection services, IConfiguration configuration)
     // {
