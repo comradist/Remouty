@@ -8,7 +8,7 @@ public partial class Client : IClient
     {
         get
         {
-            return HttpClient;
+            return _httpClient;
         }
     }
 }

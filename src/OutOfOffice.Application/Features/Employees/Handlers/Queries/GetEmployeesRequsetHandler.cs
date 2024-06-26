@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
-using OutOfOffice.Application.Feature.Request.Queries;
 using OutOfOffice.Shared.DTOs.Employee;
 using OutOfOffice.Contracts.Persistence;
+using OutOfOffice.Application.Features.Employees.Requests.Queries;
 
 namespace OutOfOffice.Application.Features.Employees.Handlers.Queries;
 

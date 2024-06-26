@@ -1,5 +1,4 @@
-﻿using HR.LeaveManagement.MVC.Services.Base;
-using OutOfOffice.MVC.Contracts;
+﻿using OutOfOffice.MVC.Contracts;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -7,15 +6,11 @@ namespace OutOfOffice.MVC.Services.Base;
 
 public class BaseHttpService
 {
-    protected readonly ILocalStorageService _localStorage;
-
     protected IClient _client;
 
-    public BaseHttpService(IClient client, ILocalStorageService localStorage)
+    public BaseHttpService(IClient client)
     {
         _client = client;
-        _localStorage = localStorage;
-
     }
 
     protected Response<Guid> ConvertApiExceptions<Guid>(ApiException ex)
@@ -36,9 +31,9 @@ public class BaseHttpService
 
     protected void AddBearerToken()
     {
-        if (_localStorage.Exists("token"))
-            _client.HttpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", _localStorage.GetStorageValue<string>("token"));
+        // if (_localStorage.Exists("token"))
+        //     _client.HttpClient.DefaultRequestHeaders.Authorization =
+        //         new AuthenticationHeaderValue("Bearer", _localStorage.GetStorageValue<string>("token"));
     }
 }
 

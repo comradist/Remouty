@@ -2,10 +2,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OutOfOffice.API.Presentation.ActionFilters;
-using OutOfOffice.Application.Feature.Request.Queries;
 using OutOfOffice.Application.Features.Employees.Requests.Commands;
+using OutOfOffice.Application.Features.Employees.Requests.Queries;
 using OutOfOffice.Contracts.Infrastructure;
 using OutOfOffice.Shared.DTOs.Employee;
+using OutOfOffice.Shared.RequestFeatures;
 
 namespace OutOfOffice.API.Presentation.Controllers;
 
@@ -24,7 +25,20 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployees()
+    //[ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+    public async Task<IActionResult> GetEmloyeesByParameters([FromQuery] EmployeeParameters employeeParameters)
+    {
+
+        var result = await mediator.Send(new GetEmployeesWithQueryRequest { Query = "SubdivisionId=3,StatusId=3" });
+
+        //Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.metaData));
+
+        //return result.linkResponse.HasLinks ? Ok(result.linkResponse.LinkedEntities) : Ok(result.linkResponse.ShapedEntities);
+        return Ok();
+    }
+
+    //[HttpGet]
+    public async Task<ActionResult<List<EmployeeDto>>> GetEmployees()
     {
         var employeesDto = await mediator.Send(new GetEmployeesRequest());
 
@@ -32,7 +46,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet("{id:Guid}", Name = "GetEmployee")]
-    public async Task<IActionResult> GetEmployee(Guid id)
+    public async Task<ActionResult<EmployeeDto>> GetEmployee(Guid id)
     {
         var employeeDto = await mediator.Send(new GetEmployeeByIdRequest { Id = id });
 
@@ -41,7 +55,7 @@ public class EmployeeController : ControllerBase
 
     [HttpPost]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeDto createEmployeeDto)
+    public async Task<ActionResult<EmployeeDto>> CreateEmployee([FromBody] CreateEmployeeDto createEmployeeDto)
     {
         var employeeDto = await mediator.Send(new CreateEmployeeCommand { EmployeeDto = createEmployeeDto });
 

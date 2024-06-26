@@ -212,6 +212,8 @@ public class AuthenticateService : IAuthenticateService
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, userApp.UserName),
+            new Claim(ClaimTypes.NameIdentifier, userApp.Id),
+            new Claim(ClaimTypes.Email, userApp.Email)
         };
 
         var roles = await userManager.GetRolesAsync(userApp);
@@ -228,7 +230,7 @@ public class AuthenticateService : IAuthenticateService
             issuer: jwtSettings.Issuer,
             audience: jwtSettings.Audience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(jwtSettings.TokenExpiration.Minutes),
+            expires: DateTime.Now.AddHours(jwtSettings.TokenExpiration.Hours),
             signingCredentials: signingCredentials
         );
         return tokenOptions;

@@ -40,8 +40,10 @@ public class AuthenticateController : ControllerBase
 
     [HttpPost("login")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> Authenticate([FromBody] UserAuthenticationDto userAuthenticationDto)
+    public async Task<ActionResult<TokenDto>> Authenticate([FromBody] UserAuthenticationDto userAuthenticationDto)
     {
+        // var tokenDto = new TokenDto("123", "456");
+        // return Ok(tokenDto);
         if (!await authenticateService.ValidateUser(userAuthenticationDto))
         {
             return Unauthorized();

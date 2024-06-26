@@ -1,16 +1,20 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using OutOfOffice.MVC.Contracts;
 using OutOfOffice.MVC.Models;
 
 namespace OutOfOffice.MVC.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    private readonly ILogger<HomeController> _logger;
+    private readonly IAuthenticateService authenticationService;
+
+    public HomeController(ILogger<HomeController> logger, IAuthenticateService authenticationService)
     {
         _logger = logger;
+        this.authenticationService = authenticationService;
     }
 
     public IActionResult Index()

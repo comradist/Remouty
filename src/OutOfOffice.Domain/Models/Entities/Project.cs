@@ -5,6 +5,7 @@ namespace OutOfOffice.Domain.Models.Entities;
 
 public class Project : BaseEntity
 {
+    public Guid Id { get; set; }
     public int ProjectTypeId { get; set; }
     public ProjectType ProjectType { get; set; }
 

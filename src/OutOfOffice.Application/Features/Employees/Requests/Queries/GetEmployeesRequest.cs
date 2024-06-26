@@ -1,7 +1,7 @@
 using MediatR;
 using OutOfOffice.Shared.DTOs.Employee;
 
-namespace OutOfOffice.Application.Feature.Request.Queries;
+namespace OutOfOffice.Application.Features.Employees.Requests.Queries;
 
 public class GetEmployeesRequest : IRequest<List<EmployeeDto>>
 {

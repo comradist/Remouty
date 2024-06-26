@@ -38,6 +38,7 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
         var employee = mapper.Map<Employee>(request.EmployeeDto);
 
         await employeeRepository.CreateAsync(employee);
+        employee = await employeeRepository.GetEmployeeByIdAsync(employee.Id, false);
 
         var employeeDto = mapper.Map<EmployeeDto>(employee);
 

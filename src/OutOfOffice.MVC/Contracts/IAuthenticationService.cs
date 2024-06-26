@@ -1,14 +1,15 @@
 ﻿
 using System.Threading.Tasks;
-using OutOfOffice.Shared.DTOs.Identity;
+using OutOfOffice.MVC.Models.Identity;
+using OutOfOffice.MVC.Services.Base;
 
 namespace OutOfOffice.MVC.Contracts
 {
-    public interface IAuthenticationService
+    public interface IAuthenticateService
     {
-        Task<bool> RefreshToken();
-        Task<bool> Authenticate(string email, string password);
-        Task<bool> Register(UserRegistrationVM registration);
+        Task<TokenVM> RefreshToken(TokenVM token);
+        Task<TokenVM> Authenticate(string email, string password);
+        Task Register(UserRegistrationVM registration);
         Task Logout();
     }
 }

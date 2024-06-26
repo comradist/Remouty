@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using OutOfOffice.Contracts.Persistence;
 using OutOfOffice.Persistence.Repositories.Common;
+using OutOfOffice.Shared.RequestFeatures;
 
 namespace OutOfOffice.Persistence.Repositories;
 
@@ -16,9 +17,14 @@ public abstract class GenericRepositoryManager<T, K> : RepositoryBase<T>, IGener
         return await FindByCondition(expression, trackChanges).FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(bool trackChanges)
+    public async Task<PagedList<T>> GetAllAsync(EmployeeParameters employeeParameters, bool trackChanges)
     {
-        return await FindAll(false).ToListAsync();
+        var employees = await FindAll(false)
+            .Skip((employeeParameters.PageNumber - 1) * employeeParameters.PageSize)
+            .Take(employeeParameters.PageSize)
+            .ToListAsync();
+
+        return PagedList<T>.ToPagedList(employees, employeeParameters.PageNumber, employeeParameters.PageSize);
     }
 
     public async override Task CreateAsync(T entity)

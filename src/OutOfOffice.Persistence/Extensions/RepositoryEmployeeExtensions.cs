@@ -9,15 +9,17 @@ namespace OutOfOffice.Persistence.Extensions;
 
 public static class RepositoryEmployeeExtensions
 {
-    public static IQueryable<Employee> FilterEmployees(this IQueryable<Employee> employees, uint min, uint max)
+    public static IQueryable<Employee> Filter(this IQueryable<Employee> employees, string filterQueryString)
     {
-        // var returnEmloyees = employees.Where(x => x.Age >= min && x.Age <= max);
-        // if (!returnEmloyees.Any())
-        // {
-        //     throw new CollectionBySearchParamBadRequest($"Not found any employees between {min} and {max} parameters");
-        // }
-        // return returnEmloyees;
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(filterQueryString))
+        {
+            return employees;
+        }
+
+        var (filterQuery, parameters) = FilterQueryBuilder.CreateFilterQueryWithParameters<Employee>(filterQueryString);
+        var filteredEmployees = employees.Where(filterQuery);
+
+        return filteredEmployees;
     }
 
     public static IQueryable<Employee> Search(this IQueryable<Employee> employees, string searchVar)
