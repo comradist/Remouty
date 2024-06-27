@@ -8,21 +8,21 @@ namespace OutOfOffice.Application.Features.Employees.Handlers.Commands;
 
 public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, Unit>
 {
-    private readonly IEmployeeRepository employeeRepository;
+    private readonly IRepositoryManager repositoryManager;
     private readonly IMapper mapper;
 
-    public DeleteEmployeeCommandHandler(IEmployeeRepository employeeRepository, IMapper mapper)
+    public DeleteEmployeeCommandHandler(IRepositoryManager repositoryManager, IMapper mapper)
     {
-        this.employeeRepository = employeeRepository;
+        this.repositoryManager = repositoryManager;
         this.mapper = mapper;
     }
 
     public async Task<Unit> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
     {
-        var user = await employeeRepository.GetEmployeeByIdAsync(request.Id, false) ?? throw new Exception("Employee not found");
+        var employee = await repositoryManager.Employee.GetEmployeeByIdAsync(request.Id, false) ?? throw new Exception("Employee not found");
 
-        await employeeRepository.DeleteAsync(user);
-        await employeeRepository.SaveChangesAsync();
+        await repositoryManager.Employee.DeleteAsync(employee);
+        await repositoryManager.SaveChangesAsync();
 
         return Unit.Value;
     }

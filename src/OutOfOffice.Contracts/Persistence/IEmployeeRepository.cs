@@ -7,7 +7,5 @@ public interface IEmployeeRepository : IGenericRepositoryManager<Employee, Guid>
 {
     Task<Employee> GetEmployeeByIdAsync(Guid id, bool trackChanges);
 
-    Task<PagedList<Employee>> GetEmployeesByParamAsync(bool trackChanges, EmployeeParameters employeeParameters);
-
-    Task SaveChangesAsync();
+    Task<PagedList<Employee>> GetEmployeesByParamAsync(EmployeeParameters employeeParameters, bool trackChanges);
 }

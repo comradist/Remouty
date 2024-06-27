@@ -12,11 +12,13 @@ public abstract class GenericRepositoryManager<T, K> : RepositoryBase<T>, IGener
     {
     }
 
+    //! Not used in the project
     public async Task<T> GetByConditionAsync(Expression<Func<T, bool>> expression, bool trackChanges)
     {
         return await FindByCondition(expression, trackChanges).FirstOrDefaultAsync();
     }
 
+    //! Not used in the project
     public async Task<PagedList<T>> GetAllAsync(EmployeeParameters employeeParameters, bool trackChanges)
     {
         var employees = await FindAll(false)

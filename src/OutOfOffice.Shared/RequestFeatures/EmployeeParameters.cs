@@ -4,14 +4,17 @@ public class EmployeeParameters : RequestParameters
 {
     public EmployeeParameters() => OrderBy = "name";
 
-    public string? FilterTerm { get; set; }
+    public string? FullName { get; set; }
 
-    public string? SearchTerm { get; set; }
+    public string? SubdivisionID { get; set; }
 
-    public string? SubdivisionId { get; set; }
+    public string? PositionID { get; set; }
 
-    public string? PositionId { get; set; }
+    public string? StatusID { get; set; }
 
-    public string? StatusId { get; set; }
+    public Guid? PeoplePartnerId { get; set; }
 
+    public Guid? Id { get; set; }
+
+    public int? OutOfOfficeBalance { get; set; }
 }

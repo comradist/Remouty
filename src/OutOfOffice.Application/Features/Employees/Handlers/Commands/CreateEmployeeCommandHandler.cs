@@ -9,12 +9,12 @@ namespace OutOfOffice.Application.Features.Employees.Handlers.Commands;
 
 public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, EmployeeDto>
 {
-    private readonly IEmployeeRepository employeeRepository;
+    private readonly IRepositoryManager repositoryManager;
     private readonly IMapper mapper;
 
-    public CreateEmployeeCommandHandler(IEmployeeRepository employeeRepository, IMapper mapper)
+    public CreateEmployeeCommandHandler(IRepositoryManager repositoryManager, IMapper mapper)
     {
-        this.employeeRepository = employeeRepository;
+        this.repositoryManager = repositoryManager;
         this.mapper = mapper;
     }
 
@@ -37,8 +37,8 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
 
         var employee = mapper.Map<Employee>(request.EmployeeDto);
 
-        await employeeRepository.CreateAsync(employee);
-        employee = await employeeRepository.GetEmployeeByIdAsync(employee.Id, false);
+        await repositoryManager.Employee.CreateAsync(employee);
+        employee = await repositoryManager.Employee.GetEmployeeByIdAsync(employee.Id, false);
 
         var employeeDto = mapper.Map<EmployeeDto>(employee);
 

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,25 +26,25 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet]
-    //[ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-    public async Task<IActionResult> GetEmloyeesByParameters([FromQuery] EmployeeParameters employeeParameters)
+    [ServiceFilter(typeof(ExtractQueryAttribute))]
+    public async Task<IActionResult> GetEmployeesByParameters([FromQuery] EmployeeParameters employeeParameters)
     {
+        employeeParameters.FilterAndSearchTerm = HttpContext.Items["filterAndSearchTerm"]!.ToString() ?? string.Empty;
+        var result = await mediator.Send(new GetEmployeesByParamRequest { employeeParameters = employeeParameters });
 
-        var result = await mediator.Send(new GetEmployeesWithQueryRequest { Query = "SubdivisionId=3,StatusId=3" });
-
-        //Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.metaData));
+        Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.Item2));
 
         //return result.linkResponse.HasLinks ? Ok(result.linkResponse.LinkedEntities) : Ok(result.linkResponse.ShapedEntities);
-        return Ok();
+        return Ok(result.Item1);
     }
 
-    //[HttpGet]
-    public async Task<ActionResult<List<EmployeeDto>>> GetEmployees()
-    {
-        var employeesDto = await mediator.Send(new GetEmployeesRequest());
+    // [HttpGet]
+    // public async Task<ActionResult<List<EmployeeDto>>> GetEmployees()
+    // {
+    //     var employeesDto = await mediator.Send(new GetEmployeesRequest());
 
-        return Ok(employeesDto);
-    }
+    //     return Ok(employeesDto);
+    // }
 
     [HttpGet("{id:Guid}", Name = "GetEmployee")]
     public async Task<ActionResult<EmployeeDto>> GetEmployee(Guid id)
@@ -62,7 +63,7 @@ public class EmployeeController : ControllerBase
         return CreatedAtRoute("GetEmployee", new { employeeDto.Id }, employeeDto);
     }
 
-    [HttpPut()]
+    [HttpPut]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeDto updateEmployeeDto)
     {

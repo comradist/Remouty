@@ -18,12 +18,13 @@ public class EmployeeRepository : GenericRepositoryManager<Employee, Guid>, IEmp
         return await GetByConditionAsync(x => x.Id.Equals(id), trackChanges);
     }
 
-    public async Task<PagedList<Employee>> GetEmployeesByParamAsync(bool trackChanges, EmployeeParameters employeeParameters)
+    public async Task<PagedList<Employee>> GetEmployeesByParamAsync(EmployeeParameters employeeParameters, bool trackChanges)
     {
         var employees = await FindAll(false)
-            .Filter(employeeParameters.FilterTerm!)
+            .FilterAndSearch(employeeParameters.FilterAndSearchTerm!)
             .Skip((employeeParameters.PageNumber - 1) * employeeParameters.PageSize)
             .Take(employeeParameters.PageSize)
+            .Sort(employeeParameters.OrderBy!)
             .ToListAsync();
 
         return PagedList<Employee>.ToPagedList(employees, employeeParameters.PageNumber, employeeParameters.PageSize);

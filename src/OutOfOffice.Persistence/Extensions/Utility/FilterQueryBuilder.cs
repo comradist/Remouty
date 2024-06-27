@@ -7,7 +7,7 @@ public static class FilterQueryBuilder
 {
     public static (string query, object[] parameters) CreateFilterQueryWithParameters<T>(string filterQueryString)
     {
-        var filterParams = filterQueryString.Trim().Split(',');
+        var filterParams = filterQueryString.Trim().Split('&');
         var propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
         var filterQueryBuilder = new StringBuilder();
         var parameters = new List<object>();
@@ -37,7 +37,7 @@ public static class FilterQueryBuilder
 
             if (objectProperty.PropertyType == typeof(string))
             {
-                filterQueryBuilder.Append($"{objectProperty.Name}.ToLower().Equals(@{propertyValue}.ToLower()) && ");
+                filterQueryBuilder.Append($"{objectProperty.Name}.Contains(\"{propertyValue.ToLower()}\") && ");
                 parameters.Add(propertyValue);
             }
             else if (objectProperty.PropertyType.IsPrimitive || objectProperty.PropertyType.IsValueType || objectProperty.PropertyType.IsEnum)
@@ -47,7 +47,7 @@ public static class FilterQueryBuilder
             }
             else if (objectProperty.PropertyType.IsClass && objectProperty.PropertyType != typeof(byte[]))
             {
-                filterQueryBuilder.Append($"{objectProperty.Name}.ToString().Contains(@{propertyValue}) && ");
+                filterQueryBuilder.Append($"{objectProperty.Name}.ToString().Contains({propertyValue}) && ");
                 parameters.Add(propertyValue);
             }
         }

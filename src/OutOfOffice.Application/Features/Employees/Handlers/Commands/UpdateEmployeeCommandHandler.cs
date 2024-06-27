@@ -8,12 +8,12 @@ namespace OutOfOffice.Application.Features.Employees.Handlers.Commands;
 
 public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, Unit>
 {
-    private readonly IEmployeeRepository employeeRepository;
+    private readonly IRepositoryManager repositoryManager;
     private readonly IMapper mapper;
 
-    public UpdateEmployeeCommandHandler(IEmployeeRepository employeeRepository, IMapper mapper)
+    public UpdateEmployeeCommandHandler(IRepositoryManager repositoryManager, IMapper mapper)
     {
-        this.employeeRepository = employeeRepository;
+        this.repositoryManager = repositoryManager;
         this.mapper = mapper;
     }
 
@@ -21,8 +21,8 @@ public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeComman
     {
         var employee = mapper.Map<Employee>(request.UpdateEmployeeDto);
 
-        await employeeRepository.UpdateAsync(employee);
-        await employeeRepository.SaveChangesAsync();
+        await repositoryManager.Employee.UpdateAsync(employee);
+        await repositoryManager.SaveChangesAsync();
 
         return Unit.Value;
 

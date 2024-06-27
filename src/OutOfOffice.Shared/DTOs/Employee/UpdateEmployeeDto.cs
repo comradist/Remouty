@@ -12,7 +12,7 @@ public class UpdateEmployeeDto : BaseDto
 
     public int StatusID { get; set; }
 
-    public Guid PeoplePartnerId { get; set; }
+    public Guid? PeoplePartnerId { get; set; }
 
     public int OutOfOfficeBalance { get; set; }
 

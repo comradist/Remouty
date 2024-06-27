@@ -9,7 +9,7 @@ namespace OutOfOffice.Persistence.Extensions;
 
 public static class RepositoryEmployeeExtensions
 {
-    public static IQueryable<Employee> Filter(this IQueryable<Employee> employees, string filterQueryString)
+    public static IQueryable<Employee> FilterAndSearch(this IQueryable<Employee> employees, string filterQueryString)
     {
         if (string.IsNullOrWhiteSpace(filterQueryString))
         {
@@ -20,24 +20,6 @@ public static class RepositoryEmployeeExtensions
         var filteredEmployees = employees.Where(filterQuery);
 
         return filteredEmployees;
-    }
-
-    public static IQueryable<Employee> Search(this IQueryable<Employee> employees, string searchVar)
-    {
-        if (string.IsNullOrWhiteSpace(searchVar))
-        {
-            return employees;
-        }
-
-        var lowerCaseTerm = searchVar.Trim().ToLower();
-
-        var returnEmployees = employees.Where(x => x.FullName.ToLower().Contains(lowerCaseTerm));
-        if (!returnEmployees.Any())
-        {
-            //throw new CollectionBySearchParamBadRequest($"Not found any employees with searched term {searchVar}");
-            throw new NotImplementedException();
-        }
-        return returnEmployees;
     }
 
     public static IQueryable<Employee> Sort(this IQueryable<Employee> employees, string orderByQueryString)

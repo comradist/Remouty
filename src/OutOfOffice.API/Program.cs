@@ -15,6 +15,7 @@ builder.Services.ConfigureInfrastructureServices(builder.Configuration);
 builder.Services.ConfigureIdentityService(builder.Configuration);
 
 builder.Services.ConfigureValidationFilterAttribute();
+builder.Services.ConfigureExtractQueryAttribute();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -29,6 +30,7 @@ builder.Services.AddControllers(config =>
     config.ReturnHttpNotAcceptable = true;
     //config.InputFormatters.Insert(0, JsonPatch.GetJsonPatchInputFormatter());
 }).AddXmlDataContractSerializerFormatters()
+
 .AddApplicationPart(typeof(OutOfOffice.API.Presentation.AssemblyReference).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();

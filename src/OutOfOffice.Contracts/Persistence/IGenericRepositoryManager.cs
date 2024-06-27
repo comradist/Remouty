@@ -16,5 +16,7 @@ public interface IGenericRepositoryManager<T, K>
     Task UpdateAsync(T entity);
 
     Task DeleteAsync(T entity);
+
+    Task SaveChangesAsync();
 }
 
