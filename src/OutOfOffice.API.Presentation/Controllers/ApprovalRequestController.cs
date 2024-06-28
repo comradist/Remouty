@@ -12,7 +12,7 @@ using OutOfOffice.Shared.RequestFeatures;
 namespace OutOfOffice.API.Presentation.Controllers;
 
 [ApiController]
-[Route("api/ApprovalRequests")]
+[Route("api/approvalRequests")]
 public class ApprovalRequestController : ControllerBase
 {
     private readonly IMediator mediator;

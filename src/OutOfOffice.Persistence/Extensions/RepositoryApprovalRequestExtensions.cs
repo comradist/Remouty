@@ -1,4 +1,5 @@
 using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore;
 using OutOfOffice.Domain.Models.Entities;
 using OutOfOffice.Persistence.Extensions.Utility;
 
@@ -36,4 +37,11 @@ public static class RepositoryApprovalRequestExtensions
         //ApprovalRequests.OrderBy(item => item.Name).ThenByDescending(item => item.Age);
         return approvalRequests.OrderBy(orderQuery);
     }
+
+    // public static IQueryable<ApprovalRequest> IncludeAllRelatedData(this IQueryable<ApprovalRequest> approvalRequests)
+    // {
+    //     return approvalRequests.Include(x => x.Approver)
+    //         .Include(x => x.LeaveRequest)
+    //         .Include(x => x.Status);
+    // }
 }

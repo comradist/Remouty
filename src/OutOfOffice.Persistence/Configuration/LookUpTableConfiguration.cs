@@ -48,10 +48,10 @@ public static class SeedLookUpTable
         );
 
         modelBuilder.Entity<RequestStatus>().HasData(
-            new RequestStatus { Id = 1, Name = "Cancelled" },
+            new RequestStatus { Id = 1, Name = "New" },
             new RequestStatus { Id = 2, Name = "Approved" },
             new RequestStatus { Id = 3, Name = "Rejected" },
-            new RequestStatus { Id = 4, Name = "New" }
+            new RequestStatus { Id = 4, Name = "Cancelled" }
         );
 
         modelBuilder.Entity<Subdivision>().HasData(

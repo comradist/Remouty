@@ -1,3 +1,4 @@
+using OutOfOffice.Domain.Models.Entities;
 using OutOfOffice.Domain.Models.Entities.LookUpTables;
 using OutOfOffice.Shared.DTOs.Common;
 using OutOfOffice.Shared.DTOs.Employee;
@@ -17,4 +18,7 @@ public class ProjectDto : BaseDto
     public string Comment { get; set; }
 
     public ProjectStatus Status { get; set; }
+
+    public ICollection<EmployeeDto> Employees { get; set; } = new List<EmployeeDto>();
+
 }

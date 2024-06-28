@@ -2,7 +2,7 @@ using OutOfOffice.Shared.DTOs.Common;
 
 namespace OutOfOffice.Shared.DTOs.Project;
 
-public class CreateProjectDto : BaseDto
+public class CreateProjectDto
 {
     public int ProjectTypeId { get; set; }
 

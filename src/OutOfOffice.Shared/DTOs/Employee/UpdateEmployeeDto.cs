@@ -17,4 +17,6 @@ public class UpdateEmployeeDto : BaseDto
     public int OutOfOfficeBalance { get; set; }
 
     public byte[]? Photo { get; set; }
+
+    public ICollection<Guid>? ProjectIds { get; set; } = new List<Guid>();
 }

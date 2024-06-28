@@ -3,7 +3,7 @@ using OutOfOffice.Shared.DTOs.Common;
 
 namespace OutOfOffice.Shared.DTOs.LeaveRequest;
 
-public class CreateLeaveRequestDto : BaseEntity
+public class CreateLeaveRequestDto
 {
     public Guid EmployeeId { get; set; }
 

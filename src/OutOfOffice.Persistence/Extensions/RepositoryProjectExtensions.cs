@@ -1,4 +1,5 @@
 using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore;
 using OutOfOffice.Domain.Models.Entities;
 using OutOfOffice.Persistence.Extensions.Utility;
 
@@ -36,4 +37,11 @@ public static class RepositoryProjectExtensions
         //Projects.OrderBy(item => item.Name).ThenByDescending(item => item.Age);
         return projects.OrderBy(orderQuery);
     }
+
+    // public static IQueryable<Project> IncludeAllRelatedData(this IQueryable<Project> projects)
+    // {
+    //     return projects.Include(x => x.ProjectType)
+    //         .Include(x => x.ProjectManager)
+    //         .Include(x => x.Status);
+    // }
 }

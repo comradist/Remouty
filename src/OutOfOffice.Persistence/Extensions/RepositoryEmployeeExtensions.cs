@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq.Dynamic.Core;
 using OutOfOffice.Domain.Models.Entities;
 using OutOfOffice.Persistence.Extensions.Utility;
+using Microsoft.EntityFrameworkCore;
 
 namespace OutOfOffice.Persistence.Extensions;
 
@@ -39,5 +40,13 @@ public static class RepositoryEmployeeExtensions
         //employees.OrderBy(item => item.Name).ThenByDescending(item => item.Age);
         return employees.OrderBy(orderQuery);
     }
+
+    // public static IQueryable<Employee> IncludeAllRelatedData(this IQueryable<Employee> employees)
+    // {
+    //     return employees.Include(x => x.Subdivision)
+    //         .Include(x => x.Position)
+    //         .Include(x => x.PeoplePartner)
+    //         .Include(x => x.Status);
+    // }
 
 }

@@ -13,7 +13,9 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Project, ProjectDto>().ReverseMap();
+        CreateMap<ProjectDto, Project>().ReverseMap()
+            .ForMember(dest => dest.Employees, opt => opt.MapFrom(src => src.ProjectEmployees.Select(pe => pe.Employee).ToList()));
+
         CreateMap<Project, CreateProjectDto>().ReverseMap();
         CreateMap<Project, UpdateProjectDto>().ReverseMap();
 
@@ -25,7 +27,9 @@ public class MappingProfile : Profile
         CreateMap<LeaveRequest, CreateLeaveRequestDto>().ReverseMap();
         CreateMap<LeaveRequest, UpdateLeaveRequestDto>().ReverseMap();
 
-        CreateMap<Employee, EmployeeDto>().ReverseMap();
+        CreateMap<EmployeeDto, Employee>().ReverseMap()
+            .ForMember(dest => dest.Projects, opt => opt.MapFrom(src => src.ProjectEmployees.Select(pe => pe.Project).ToList()));
+
         CreateMap<Employee, CreateEmployeeDto>().ReverseMap();
         CreateMap<Employee, UpdateEmployeeDto>().ReverseMap();
 

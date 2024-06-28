@@ -21,9 +21,9 @@ public class LeaveRequestRepository : GenericRepositoryManager<LeaveRequest, Gui
     {
         var LeaveRequests = await FindAll(false)
             .FilterAndSearch(leaveRequestParameters.FilterAndSearchTerm!)
+            .Sort(leaveRequestParameters.OrderBy!)
             .Skip((leaveRequestParameters.PageNumber - 1) * leaveRequestParameters.PageSize)
             .Take(leaveRequestParameters.PageSize)
-            .Sort(leaveRequestParameters.OrderBy!)
             .ToListAsync();
 
         return PagedList<LeaveRequest>.ToPagedList(LeaveRequests, leaveRequestParameters.PageNumber, leaveRequestParameters.PageSize);

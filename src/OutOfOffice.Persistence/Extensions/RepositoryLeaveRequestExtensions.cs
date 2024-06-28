@@ -1,4 +1,5 @@
 using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore;
 using OutOfOffice.Domain.Models.Entities;
 using OutOfOffice.Persistence.Extensions.Utility;
 
@@ -36,4 +37,11 @@ public static class RepositoryLeaveRequestExtensions
         //LeaveRequests.OrderBy(item => item.Name).ThenByDescending(item => item.Age);
         return leaveRequests.OrderBy(orderQuery);
     }
+
+    // public static IQueryable<LeaveRequest> IncludeAllRelatedData(this IQueryable<LeaveRequest> leaveRequests)
+    // {
+    //     return leaveRequests.Include(x => x.Employee)
+    //         .Include(x => x.AbsenceReason)
+    //         .Include(x => x.Status);
+    // }
 }

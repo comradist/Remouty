@@ -21,9 +21,9 @@ public class ApprovalRequestRepository : GenericRepositoryManager<ApprovalReques
     {
         var ApprovalRequests = await FindAll(false)
             .FilterAndSearch(approvalRequestParameters.FilterAndSearchTerm!)
+            .Sort(approvalRequestParameters.OrderBy!)
             .Skip((approvalRequestParameters.PageNumber - 1) * approvalRequestParameters.PageSize)
             .Take(approvalRequestParameters.PageSize)
-            .Sort(approvalRequestParameters.OrderBy!)
             .ToListAsync();
 
         return PagedList<ApprovalRequest>.ToPagedList(ApprovalRequests, approvalRequestParameters.PageNumber, approvalRequestParameters.PageSize);

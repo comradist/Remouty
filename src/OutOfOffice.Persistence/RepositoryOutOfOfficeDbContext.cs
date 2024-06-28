@@ -67,15 +67,6 @@ public class RepositoryOutOfOfficeDbContext : DbContext
 
         // Employee configuration
         modelBuilder.Entity<Employee>()
-            .Navigation(e => e.Subdivision).AutoInclude();
-        modelBuilder.Entity<Employee>()
-            .Navigation(e => e.Position).AutoInclude();
-        // modelBuilder.Entity<Employee>()
-        //     .Navigation(e => e.PeoplePartner).AutoInclude();
-        modelBuilder.Entity<Employee>()
-            .Navigation(e => e.Status).AutoInclude();
-
-        modelBuilder.Entity<Employee>()
             .HasOne(e => e.Subdivision)
             .WithMany()
             .HasForeignKey(e => e.SubdivisionId)
@@ -145,6 +136,41 @@ public class RepositoryOutOfOfficeDbContext : DbContext
             .HasOne(pe => pe.Employee)
             .WithMany(pe => pe.ProjectEmployees)
             .HasForeignKey(pe => pe.EmployeeId);
+
+        // Include all data into entity
+        modelBuilder.Entity<Employee>()
+            .Navigation(e => e.Subdivision).AutoInclude();
+        modelBuilder.Entity<Employee>()
+            .Navigation(e => e.Position).AutoInclude();
+        // modelBuilder.Entity<Employee>()
+        //     .Navigation(e => e.PeoplePartner).AutoInclude();
+        modelBuilder.Entity<Employee>()
+            .Navigation(e => e.Status).AutoInclude();
+
+        modelBuilder.Entity<LeaveRequest>()
+            .Navigation(lr => lr.AbsenceReason).AutoInclude();
+        modelBuilder.Entity<LeaveRequest>()
+            .Navigation(lr => lr.Status).AutoInclude();
+        modelBuilder.Entity<LeaveRequest>()
+            .Navigation(lr => lr.Employee).AutoInclude();
+
+        modelBuilder.Entity<ApprovalRequest>()
+            .Navigation(ar => ar.LeaveRequest).AutoInclude();
+        modelBuilder.Entity<ApprovalRequest>()
+            .Navigation(ar => ar.Approver).AutoInclude();
+        modelBuilder.Entity<ApprovalRequest>()
+            .Navigation(ar => ar.Status).AutoInclude();
+
+        modelBuilder.Entity<Project>()
+            .Navigation(p => p.ProjectType).AutoInclude();
+        modelBuilder.Entity<Project>()
+            .Navigation(p => p.Status).AutoInclude();
+        // modelBuilder.Entity<Project>()
+        //     .Navigation(p => p.ProjectEmployees).AutoInclude();
+        modelBuilder.Entity<Project>()
+            .Navigation(p => p.ProjectManager).AutoInclude();
+
+
     }
 
     // public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

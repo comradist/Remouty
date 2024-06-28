@@ -30,6 +30,10 @@ builder.Services.AddControllers(config =>
     config.ReturnHttpNotAcceptable = true;
     //config.InputFormatters.Insert(0, JsonPatch.GetJsonPatchInputFormatter());
 }).AddXmlDataContractSerializerFormatters()
+.AddJsonOptions(options => 
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+})
 
 .AddApplicationPart(typeof(OutOfOffice.API.Presentation.AssemblyReference).Assembly);
 

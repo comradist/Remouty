@@ -14,18 +14,41 @@ public class ProjectRepository : GenericRepositoryManager<Project, Guid>, IProje
 
     public async Task<Project> GetProjectByIdAsync(Guid id, bool trackChanges)
     {
-        return await GetByConditionAsync(x => x.Id.Equals(id), trackChanges);
+        return await FindByCondition(x => x.Id.Equals(id), trackChanges)
+                .Include(x => x.ProjectEmployees)
+                    .ThenInclude(x => x.Employee)
+                .FirstOrDefaultAsync();
     }
 
     public async Task<PagedList<Project>> GetProjectsByParamAsync(ProjectParameters projectParameters, bool trackChanges)
     {
-        var projects = await FindAll(false)
-            .FilterAndSearch(projectParameters.FilterAndSearchTerm!)
+        // var projects = await FindAll(false)
+        //     .Include(x => x.ProjectEmployees)
+        //         .ThenInclude(x => x.Project)
+        //     .FilterAndSearch(projectParameters.FilterAndSearchTerm!)
+        //     .Skip((projectParameters.PageNumber - 1) * projectParameters.PageSize)
+        //     .Take(projectParameters.PageSize)
+        //     .Sort(projectParameters.OrderBy!)
+        //     .ToListAsync();
+
+        // Start with the base query
+        IQueryable<Project> query = FindAll(trackChanges)
+            .Include(x => x.ProjectEmployees)
+                .ThenInclude(x => x.Employee);
+
+        // Apply filtering and searching
+        query = query.FilterAndSearch(projectParameters.FilterAndSearchTerm);
+
+        // Apply sorting
+        query = query.Sort(projectParameters.OrderBy);
+
+        // Apply paging
+        var projects = await query
             .Skip((projectParameters.PageNumber - 1) * projectParameters.PageSize)
             .Take(projectParameters.PageSize)
-            .Sort(projectParameters.OrderBy!)
             .ToListAsync();
 
+        // Return the paged list
         return PagedList<Project>.ToPagedList(projects, projectParameters.PageNumber, projectParameters.PageSize);
     }
 }
