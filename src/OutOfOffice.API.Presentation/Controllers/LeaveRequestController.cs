@@ -1,5 +1,7 @@
 using System.Text.Json;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OutOfOffice.API.Presentation.ActionFilters;
 using OutOfOffice.Application.Features.LeaveRequests.Requests.Commands;
@@ -11,6 +13,7 @@ using OutOfOffice.Shared.RequestFeatures;
 namespace OutOfOffice.API.Presentation.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/leaveRequests")]
 public class LeaveRequestController : ControllerBase
 {
@@ -25,8 +28,11 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     [ServiceFilter(typeof(ExtractQueryAttribute))]
-    public async Task<IActionResult> GetLeaveRequestByParameters([FromQuery] LeaveRequestParameters leaveRequestParameters)
+    public async Task<ActionResult<List<LeaveRequestDto>>> GetLeaveRequestByParameters([FromQuery] LeaveRequestParameters leaveRequestParameters)
     {
         leaveRequestParameters.FilterAndSearchTerm = HttpContext.Items["filterAndSearchTerm"]!.ToString() ?? string.Empty;
         var result = await mediator.Send(new GetLeaveRequestsByParamRequest { LeaveRequestParameters = leaveRequestParameters });
@@ -46,6 +52,10 @@ public class LeaveRequestController : ControllerBase
     // }
 
     [HttpGet("{id:Guid}", Name = "GetLeaveRequest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     public async Task<ActionResult<LeaveRequestDto>> GetLeaveRequest(Guid id)
     {
         var LeaveRequestDto = await mediator.Send(new GetLeaveRequestByIdRequest { Id = id });
@@ -54,6 +64,10 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesDefaultResponseType]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<ActionResult<LeaveRequestDto>> CreateLeaveRequest([FromBody] CreateLeaveRequestDto createLeaveRequestDto)
     {
@@ -63,6 +77,10 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpPut()]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateLeaveRequest([FromBody] UpdateLeaveRequestDto updateLeaveRequestDto)
     {
@@ -72,6 +90,9 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpDelete("{id:Guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
     public async Task<IActionResult> DeleteLeaveRequest(Guid id)
     {
         await mediator.Send(new DeleteLeaveRequestCommand { Id = id });

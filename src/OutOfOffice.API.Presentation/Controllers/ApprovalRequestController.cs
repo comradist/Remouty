@@ -1,5 +1,7 @@
 using System.Text.Json;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OutOfOffice.API.Presentation.ActionFilters;
@@ -12,6 +14,7 @@ using OutOfOffice.Shared.RequestFeatures;
 namespace OutOfOffice.API.Presentation.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/approvalRequests")]
 public class ApprovalRequestController : ControllerBase
 {
@@ -26,8 +29,11 @@ public class ApprovalRequestController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     [ServiceFilter(typeof(ExtractQueryAttribute))]
-    public async Task<IActionResult> GetApprovalRequestsByParameters([FromQuery] ApprovalRequestParameters approvalRequestParameters)
+    public async Task<ActionResult<List<ApprovalRequestDto>>> GetApprovalRequestsByParameters([FromQuery] ApprovalRequestParameters approvalRequestParameters)
     {
         approvalRequestParameters.FilterAndSearchTerm = HttpContext.Items["filterAndSearchTerm"]!.ToString() ?? string.Empty;
         var result = await mediator.Send(new GetApprovalRequestsByParamRequest { ApprovalRequestParameters = approvalRequestParameters });
@@ -47,6 +53,10 @@ public class ApprovalRequestController : ControllerBase
     // }
 
     [HttpGet("{id:Guid}", Name = "GetApprovalRequest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     public async Task<ActionResult<ApprovalRequestDto>> GetApprovalRequest(Guid id)
     {
         var ApprovalRequestDto = await mediator.Send(new GetApprovalRequestByIdRequest { Id = id });
@@ -55,6 +65,10 @@ public class ApprovalRequestController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesDefaultResponseType]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<ActionResult<ApprovalRequestDto>> CreateApprovalRequest([FromBody] CreateApprovalRequestDto createApprovalRequestDto)
     {
@@ -64,6 +78,10 @@ public class ApprovalRequestController : ControllerBase
     }
 
     [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateApprovalRequest([FromBody] UpdateApprovalRequestDto updateApprovalRequestDto)
     {
@@ -73,6 +91,9 @@ public class ApprovalRequestController : ControllerBase
     }
 
     [HttpDelete("{id:Guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
     public async Task<IActionResult> DeleteApprovalRequest(Guid id)
     {
         await mediator.Send(new DeleteApprovalRequestCommand { Id = id });

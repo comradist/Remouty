@@ -1,16 +1,20 @@
+using OutOfOffice.MVC.Shared.RequestFeatures;
+
 namespace OutOfOffice.Shared.RequestFeatures;
 
-public class EmployeeParameters : RequestParameters
+public class EmployeeParameters : MetaData
 {
-    public EmployeeParameters() => OrderBy = "name";
+    public Guid? Id { get; set; }
+
+    public string? OrderBy { get; set; }
 
     public string? FullName { get; set; }
 
-    public string? SubdivisionID { get; set; }
+    public int? SubdivisionID { get; set; }
 
-    public string? PositionID { get; set; }
+    public int? PositionID { get; set; }
 
-    public string? StatusID { get; set; }
+    public int? StatusID { get; set; }
 
     public Guid? PeoplePartnerId { get; set; }
 

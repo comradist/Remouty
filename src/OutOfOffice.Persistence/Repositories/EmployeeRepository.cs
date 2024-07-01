@@ -37,7 +37,7 @@ public class EmployeeRepository : GenericRepositoryManager<Employee, Guid>, IEmp
 
         // Start with the base query
         IQueryable<Employee> query = FindAll(trackChanges)
-            .Include(x => x.PeoplePartner)
+            //.Include(x => x.PeoplePartner)
             .Include(x => x.ProjectEmployees)
                 .ThenInclude(x => x.Project);
 

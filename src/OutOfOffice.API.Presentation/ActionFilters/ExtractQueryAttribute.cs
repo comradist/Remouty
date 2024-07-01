@@ -17,7 +17,8 @@ public class ExtractQueryAttribute : IActionFilter
 
         foreach (var key in queryParts.AllKeys)
         {
-            if (key != "pageNumber" && key != "pageSize" && key != "orderBy")
+            if (key != "pageNumber" && key != "pageSize" && key != "orderBy" &&
+                key != "PageNumber" && key != "PageSize" && key != "OrderBy")
             {
                 filterStringBuilder.Append($"{key}={queryParts[key]}&");
             }

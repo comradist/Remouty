@@ -19,4 +19,6 @@ public class EmployeeVM
     public int OutOfOfficeBalance { get; set; }
 
     public byte[]? Photo { get; set; }
+
+    
 }

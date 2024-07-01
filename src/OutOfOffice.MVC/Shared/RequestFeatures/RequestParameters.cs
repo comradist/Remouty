@@ -16,5 +16,4 @@ public abstract class RequestParameters
 
     public string? FilterAndSearchTerm { get; set; }
 
-    public string? OrderBy { get; set; }
 }

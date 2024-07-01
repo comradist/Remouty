@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OutOfOffice.API.Presentation.ActionFilters;
@@ -21,6 +22,8 @@ public class AuthenticateController : ControllerBase
     }
 
     [HttpPost("register")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationDto userRegistrationDto)
     {
@@ -39,6 +42,9 @@ public class AuthenticateController : ControllerBase
     }
 
     [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<ActionResult<TokenDto>> Authenticate([FromBody] UserAuthenticationDto userAuthenticationDto)
     {

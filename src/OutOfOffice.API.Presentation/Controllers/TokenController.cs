@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OutOfOffice.API.Presentation.ActionFilters;
 using OutOfOffice.Contracts.Identity;
@@ -18,6 +19,9 @@ public class TokenController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<ActionResult<TokenDto>> Refresh([FromBody] TokenDto tokenDto)
     {

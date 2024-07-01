@@ -1,43 +1,53 @@
 
 using Microsoft.AspNetCore.Authentication.Cookies;
+using OutOfOffice.MVC.Configuration;
 using OutOfOffice.MVC.Contracts;
+using OutOfOffice.MVC.Logger;
 using OutOfOffice.MVC.Services;
 using OutOfOffice.MVC.Services.Base;
+using OutOfOffice.MVC.Extensions;
+using NLog;
+using OutOfOffice.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Users/Login"; // Set the path for the login page
-        options.LogoutPath = "/Account/Logout"; // Set the path for the logout page
-    });
-
 // Add services to the container.
+
+LogManager.Setup().LoadConfigurationFromFile(builder.Configuration.GetConnectionString("PathToLog"));
+
+builder.Services.ConfigureAuthentication(builder.Configuration);
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-builder.Services.AddHttpClient<IClient, Client>(client =>
-{
-    client.BaseAddress = new Uri("http://localhost:5000");
-});
+builder.Services.ConfigureHttpClient();
 
+builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddTransient<IAuthenticateService, AuthenticateService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddSingleton<LookUpTablesConfiguration>();
 
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(Program));
 
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseExceptionHandler("/Home/Error");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

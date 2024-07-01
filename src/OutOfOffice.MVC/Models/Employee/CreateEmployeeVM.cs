@@ -11,16 +11,17 @@ public class CreateEmployeeVM
 
     [Required]
     [RegularExpression(@"^(100|[1-9][0-9]?)$", ErrorMessage = "SubdivisionID must be between 1 and 100")]
-    public int SubdivisionID { get; set; }
+    public int SubdivisionId { get; set; }
 
     [Required]
     [RegularExpression(@"^(100|[1-9][0-9]?)$", ErrorMessage = "PositionID must be between 1 and 100")]
-    public int PositionID { get; set; }
+    public int PositionId { get; set; }
 
     [Required]
     [RegularExpression(@"^(100|[1-9][0-9]?)$", ErrorMessage = "StatusID must be between 1 and 100")]
-    public int StatusID { get; set; }
+    public int StatusId { get; set; }
 
+    
     public Guid? PeoplePartnerId { get; set; }
 
     [Required]

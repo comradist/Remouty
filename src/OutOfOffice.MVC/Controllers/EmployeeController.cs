@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OutOfOffice.MVC.Contracts;
 using OutOfOffice.MVC.Models.Employee;
+using OutOfOffice.Shared.RequestFeatures;
 
+[Authorize]
 public class EmployeeController : Controller
 {
     private readonly IEmployeeService employeeService;
@@ -12,11 +14,25 @@ public class EmployeeController : Controller
         this.employeeService = employeeService;
     }
 
+    // [Authorize(Roles = "HR, Project Manager, Administrator")]
+    // public async Task<IActionResult> Index()
+    // {
+    //     EmployeeParameters employeeParameters = new EmployeeParameters();
+    //     var employees = await employeeService.GetAllEmployeesAsync(employeeParameters);
+    //     return View(employees);
+    // }
+
     [Authorize(Roles = "HR, Project Manager, Administrator")]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index([FromQuery] EmployeeParameters employeeParameters)
     {
-        var employees = await employeeService.GetAllEmployees();
-        return View(employees);
+        if (employeeParameters.PageSize == 0 && employeeParameters.CurrentPage == 0)
+        {
+            employeeParameters.CurrentPage = 1;
+            employeeParameters.PageSize = 10;
+        }
+        var employeeIndexVM = await employeeService.GetAllEmployeesAsync(employeeParameters);
+        employeeIndexVM.EmployeeParameters = employeeParameters;
+        return View(employeeIndexVM);
     }
 
     [Authorize(Roles = "HR, Administrator")]
@@ -27,17 +43,24 @@ public class EmployeeController : Controller
 
     [HttpPost]
     [Authorize(Roles = "HR, Administrator")]
-    [ValidateAntiForgeryToken]
-    public IActionResult Create(CreateEmployeeVM employee)
+    public IActionResult Create([FromBody] CreateEmployeeVM employee)
     {
-        // if (ModelState.IsValid)
-        // {
-        //     _context.Employees.Add(employee);
-        //     _context.SaveChanges();
-        //     return RedirectToAction(nameof(Index));
-        // }
-        // return View(employee);
-        return View();
+        try
+        {
+            // var employee = _mapper.Map<CreateEmployeeVM
+            if (ModelState.IsValid)
+            {
+                employeeService.CreateEmployeeAsync(employee);
+                return Json(new { success = true });
+            }
+            // return View(employee);
+            return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)) });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, errors = ex.Message });
+        }
+
     }
 
     [Authorize(Roles = "HR, Administrator")]

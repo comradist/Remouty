@@ -9,11 +9,13 @@ namespace OutOfOffice.MVC.Profiles
     {
         public MappingProfile()
         {
+            CreateMap<CreateEmployeeVM, CreateEmployeeDto>().ReverseMap();
             CreateMap<UserRegistrationDto, UserRegistrationVM>().ReverseMap();
             CreateMap<UserAuthenticationDto, UserAuthenticationVM>().ReverseMap();
             CreateMap<TokenDto, TokenVM>().ReverseMap();
             CreateMap<TokenVM, UserAuthenticationDto>().ReverseMap();
             CreateMap<EmployeeDto, EmployeeVM>().ReverseMap();
+            CreateMap<EmployeeVM, CreateEmployeeDto>().ReverseMap();
         }
     }
 

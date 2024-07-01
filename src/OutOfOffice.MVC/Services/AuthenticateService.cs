@@ -38,12 +38,12 @@ namespace OutOfOffice.MVC.Services
             UserAuthenticationDto userAuthentication = new() { UserNameOrEmail = userNameOrEmail, Password = password };
             var authenticationResponse = await _client.LoginAsync(userAuthentication);
 
-            if (authenticationResponse.AccessToken == string.Empty && authenticationResponse.RefreshToken == string.Empty)
+            if (authenticationResponse.Result.AccessToken == string.Empty && authenticationResponse.Result.RefreshToken == string.Empty)
             {
                 throw new Exception("An error occurred while trying to authenticate the user.");    
             }
             //Get Claims from token and Build auth user object
-            var tokenAccessContent = _tokenHandler.ReadJwtToken(authenticationResponse.AccessToken);
+            var tokenAccessContent = _tokenHandler.ReadJwtToken(authenticationResponse.Result.AccessToken);
             var claims = ParseClaims(tokenAccessContent);
             var user = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
             await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user);
@@ -92,7 +92,7 @@ namespace OutOfOffice.MVC.Services
         {
             var tokenDto = _mapper.Map<TokenDto>(token);
             var newToken = await _client.TokenAsync(tokenDto);
-            if (newToken.AccessToken == null || newToken.RefreshToken == null)
+            if (newToken.Result.AccessToken == null || newToken.Result.RefreshToken == null)
             {
                 throw new Exception("An error occurred while trying to refresh the token.");
             }

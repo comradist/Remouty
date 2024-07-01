@@ -1,5 +1,7 @@
 using System.Text.Json;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OutOfOffice.API.Presentation.ActionFilters;
 using OutOfOffice.Application.Features.Projects.Requests.Commands;
@@ -11,6 +13,7 @@ using OutOfOffice.Shared.RequestFeatures;
 namespace OutOfOffice.API.Presentation.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/projects")]
 public class ProjectController : ControllerBase
 {
@@ -25,8 +28,11 @@ public class ProjectController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     [ServiceFilter(typeof(ExtractQueryAttribute))]
-    public async Task<IActionResult> GetProjectByParameters([FromQuery] ProjectParameters projectParameters)
+    public async Task<ActionResult<List<ProjectDto>>> GetProjectByParameters([FromQuery] ProjectParameters projectParameters)
     {
         projectParameters.FilterAndSearchTerm = HttpContext.Items["filterAndSearchTerm"]!.ToString() ?? string.Empty;
         var result = await mediator.Send(new GetProjectsByParamRequest { projectParameters = projectParameters });
@@ -46,6 +52,10 @@ public class ProjectController : ControllerBase
     // }
 
     [HttpGet("{id:Guid}", Name = "GetProject")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     public async Task<ActionResult<ProjectDto>> GetProject(Guid id)
     {
         var ProjectDto = await mediator.Send(new GetProjectByIdRequest { Id = id });
@@ -54,6 +64,10 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesDefaultResponseType]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<ActionResult<ProjectDto>> CreateProject([FromBody] CreateProjectDto createProjectDto)
     {
@@ -63,6 +77,10 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPut()]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateProject([FromBody] UpdateProjectDto updateProjectDto)
     {
@@ -72,6 +90,9 @@ public class ProjectController : ControllerBase
     }
 
     [HttpDelete("{id:Guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
     public async Task<IActionResult> DeleteProject(Guid id)
     {
         await mediator.Send(new DeleteProjectCommand { Id = id });
