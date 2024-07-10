@@ -1,5 +1,11 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
+
+@{
+    var currentUser = ViewData["CurrentUser"] as OutOfOffice.MVC.Models.Identity.UserVM;
+}
+
 
 <head>
     <meta charset="utf-8" />
@@ -18,8 +24,9 @@
                 <div class="card user-details">
                     <div class="card-body">
                         <img src="https://via.placeholder.com/80" alt="User Photo">
-                        <h5 class="card-title">John Doe</h5>
-                        <p class="card-text">john.doe@example.com</p>
+                        <h5 class="card-title">@currentUser.FirstName @currentUser.LastName</h5>
+                        <p class="card-text">@currentUser.Email</p>
+                        <p class="card-text">@currentUser.Role</p>
                     </div>
                 </div>
                 <div class="nav-card d-flex flex-column flex-grow-1">
@@ -27,14 +34,15 @@
                         <nav class="nav flex-column nav-pills">
                             <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
                             <a class="nav-link" asp-area="" asp-controller="Project" asp-action="Index">Project</a>
+                         
+                         
                             <a class="nav-link" asp-area="" asp-controller="LeaveRequest"
                                 asp-action="Index">LeaveRequest</a>
                             <a class="nav-link" asp-area="" asp-controller="ApprovalRequest"
                                 asp-action="Index">ApprovalRequest</a>
                         </nav>
-                        
                     </div>
-                    <a class="nav-link mt-auto" asp-area="" asp-controller="Leave" asp-action="Index">Leave</a>
+                    <a class="nav-link mt-auto" asp-area="" asp-controller="Identity" asp-action="Logout">Logout</a>
 
                 </div>
 

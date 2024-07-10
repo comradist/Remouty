@@ -11,8 +11,9 @@ public static class ServiceExtension
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
-                options.LoginPath = "/Users/Login"; // Set the path for the login page
-                options.LogoutPath = "/Account/Logout"; // Set the path for the logout page
+            
+                options.LoginPath = "/Identity/Login"; // Specify the login path
+                options.AccessDeniedPath = "/Error/Unauthorized"; // Redirect here for unauthorized access
             });
     }
 
@@ -23,4 +24,8 @@ public static class ServiceExtension
                 client.BaseAddress = new Uri("http://localhost:5000");
             });
     }
+
+
+    public static void ConfigureValidationFilterAttribute(this IServiceCollection services) =>
+    services.AddScoped<CheckTokenExpirationAttribute>();
 }

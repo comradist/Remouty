@@ -1,3 +1,4 @@
+using OutOfOffice.MVC.Models.Identity;
 using OutOfOffice.MVC.Services.Base;
 
 namespace OutOfOffice.MVC.Configuration;
@@ -16,9 +17,18 @@ public class LookUpTablesConfiguration
 
     public List<Subdivision> Subdivisions { get; init; }
 
+    public List<Role> Roles { get; init; }
+
 
     public LookUpTablesConfiguration()
     {
+        Roles = new List<Role>{
+            new Role{Id = 1, Name = "HR Manager"},
+            new Role{Id = 2, Name = "Employee"},
+            new Role{Id = 3, Name = "Project Manager"},
+            new Role{Id = 4, Name = "Administrator"}
+        };
+
         AbsenceReasons = new List<AbsenceReason>{
             new AbsenceReason{Id = 1, Name = "Vacation"},
             new AbsenceReason{Id = 2, Name = "Sick Leave"},

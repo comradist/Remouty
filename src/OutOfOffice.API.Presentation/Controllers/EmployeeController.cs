@@ -1,6 +1,5 @@
 using System.Text.Json;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,7 +13,7 @@ using OutOfOffice.Shared.RequestFeatures;
 namespace OutOfOffice.API.Presentation.Controllers;
 
 [ApiController]
-[Authorize]
+
 [Route("api/employees")]
 public class EmployeeController : ControllerBase
 {

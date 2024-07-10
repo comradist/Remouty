@@ -37,7 +37,7 @@ public class EmployeeRepository : GenericRepositoryManager<Employee, Guid>, IEmp
 
         // Start with the base query
         IQueryable<Employee> query = FindAll(trackChanges)
-            //.Include(x => x.PeoplePartner)
+            .Include(x => x.PeoplePartner)
             .Include(x => x.ProjectEmployees)
                 .ThenInclude(x => x.Project);
 
@@ -49,8 +49,8 @@ public class EmployeeRepository : GenericRepositoryManager<Employee, Guid>, IEmp
 
         // Apply paging
         var employees = await query
-            .Skip((employeeParameters.PageNumber - 1) * employeeParameters.PageSize)
-            .Take(employeeParameters.PageSize)
+            // .Skip((employeeParameters.PageNumber - 1) * employeeParameters.PageSize)
+            // .Take(employeeParameters.PageSize)
             .ToListAsync();
 
         // Return the paged list

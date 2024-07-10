@@ -32,59 +32,58 @@ namespace OutOfOffice.MVC.Services
             _tokenHandler = new JwtSecurityTokenHandler();
         }
 
-        public async Task<TokenVM> Authenticate(string userNameOrEmail, string password)
+        public async Task<TokenVM> Authenticate(UserAuthenticationVM userAuthenticationVM)
         {
-
-            UserAuthenticationDto userAuthentication = new() { UserNameOrEmail = userNameOrEmail, Password = password };
-            var authenticationResponse = await _client.LoginAsync(userAuthentication);
+            var userAuthenticationDto = _mapper.Map<UserAuthenticationDto>(userAuthenticationVM);
+            var authenticationResponse = await _client.LoginAsync(userAuthenticationDto);
 
             if (authenticationResponse.Result.AccessToken == string.Empty && authenticationResponse.Result.RefreshToken == string.Empty)
             {
                 throw new Exception("An error occurred while trying to authenticate the user.");    
             }
-            //Get Claims from token and Build auth user object
+
             var tokenAccessContent = _tokenHandler.ReadJwtToken(authenticationResponse.Result.AccessToken);
             var claims = ParseClaims(tokenAccessContent);
             var user = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
             await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user);
 
-            var tokenVm = _mapper.Map<TokenVM>(authenticationResponse);
+            var tokenVm = _mapper.Map<TokenVM>(authenticationResponse.Result);
 
-            // var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            // var expiryTime = unixEpoch.AddSeconds(Convert.ToDouble(claims.FirstOrDefault(x => x.Type == "exp")?.Value));
-            // var expiryTime2 = unixEpoch.AddSeconds(Convert.ToDouble(tokenAccessContent.Payload.ValidTo));
-            // var expiryTime3 = unixEpoch.AddSeconds(Convert.ToDouble(tokenAccessContent.Payload.ValidFrom));
-            // var expiryTime4 = unixEpoch.AddSeconds(Convert.ToDouble(tokenAccessContent.Payload.Expiration));
-            //tokenVm.AccessTokenExpires = expiryTime2;
+            tokenVm.AccessTokenExpires = tokenAccessContent.ValidTo;
 
             return tokenVm;
         }
 
-        public async Task Register(UserRegistrationVM registration)
+        public async Task<TokenVM> Register(UserRegistrationVM registration)
         {
 
             UserRegistrationDto userRegistration = _mapper.Map<UserRegistrationDto>(registration);
-            await _client.RegisterAsync(userRegistration);
+            var authAPIResponse = await _client.RegisterAsync(userRegistration);
 
-            // if (!string.IsNullOrEmpty(response.UserId))
-            // {
-            //     await Authenticate(registration.Email, registration.Password);
-            //     return true;
-            // }
-            // return false;
+            if (authAPIResponse.StatusCode == StatusCodes.Status201Created)
+            {
+                UserAuthenticationVM userAuthenticationVM = new()
+                {
+                    UserNameOrEmail = registration.Email,
+                    Password = registration.Password
+                };
+                var tokenVM = await Authenticate(userAuthenticationVM);
+                return tokenVM;
+            }
+            else
+            {
+                throw new Exception("An error occurred while trying to register the user.");
+            }
         }
 
         public async Task Logout()
         {
-            //_localStorage.ClearStorage(new List<string> { "token", "tokenRefresh" });
             await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         private IList<Claim> ParseClaims(JwtSecurityToken tokenContent)
         {
-
             var claims = tokenContent.Claims.ToList();
-            //claims.Add(new Claim(ClaimTypes.Name, tokenContent.Subject));
             return claims;
         }
 
@@ -102,5 +101,43 @@ namespace OutOfOffice.MVC.Services
             return tokenVM;
         }
 
+        public UserVM GetCurrentUser()
+        {
+            var user = _httpContextAccessor.HttpContext.User;
+            if (user == null || !user.Identity.IsAuthenticated)
+            {
+                return null;
+            }
+            var userVM = new UserVM
+            {
+                Id = Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)),
+                UserName = user.FindFirstValue(ClaimTypes.Name),
+                Email = user.FindFirstValue(ClaimTypes.Email),
+                FirstName = user.FindFirstValue(ClaimTypes.GivenName),
+                LastName = user.FindFirstValue(ClaimTypes.Surname),
+                PhoneNumber = user.FindFirstValue(ClaimTypes.MobilePhone),
+                Role = user.FindFirstValue(ClaimTypes.Role)
+            };
+
+            return userVM;
+        }
+
+        public void AddCookies(TokenVM tokenVM, in HttpResponse httpResponse)
+        {
+            httpResponse.Cookies.Append("RefreshToken", tokenVM.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = tokenVM.RefreshTokenExpires
+            });
+            httpResponse.Cookies.Append("AccessToken", tokenVM.AccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = tokenVM.AccessTokenExpires
+            });
+        }
     }
 }

@@ -1,0 +1,71 @@
+@* <!-- Create Employee Modal -->
+<div class="modal fade" id="createEmployeeModal" tabindex="-1" aria-labelledby="createEmployeeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createEmployeeModalLabel">Create Employee</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createEmployeeForm" asp-controller="Employee" asp-action="Create">
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.FullName" class="form-label"></label>
+                        <input id="employeeFullName" asp-for="CreateEmployeeVM.FullName" class="form-control" />
+                        <span asp-validation-for="CreateEmployeeVM.FullName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.SubdivisionId" class="form-label"></label>
+                        <select id="employeeSubdivisionId" asp-for="CreateEmployeeVM.SubdivisionId"
+                            class="form-control">
+                            <option value="">Select Subdivision</option>
+                            @foreach (var subdivision in Model.Subdivisions)
+                            {
+                                <option value="@subdivision.Id">@subdivision.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CreateEmployeeVM.SubdivisionId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.PositionId" class="form-label"></label>
+                        <select id="employeePositionId" asp-for="CreateEmployeeVM.PositionId" class="form-control">
+                            <option value="">Select Position</option>
+                            @foreach (var position in Model.Positions)
+                            {
+                                <option value="@position.Id">@position.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CreateEmployeeVM.PositionId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.StatusId" class="form-label"></label>
+                        <select id="employeeStatusId" asp-for="CreateEmployeeVM.StatusId" class="form-control">
+                            <option value="">Select Status</option>
+                            @foreach (var status in Model.RequestStatuses)
+                            {
+                                <option value="@status.Id">@status.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CreateEmployeeVM.StatusId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.PeoplePartnerId" class="form-label"></label>
+                        <input id="employeePeoplePartnerId" asp-for="CreateEmployeeVM.PeoplePartnerId"
+                            class="form-control" />
+                        <span asp-validation-for="CreateEmployeeVM.PeoplePartnerId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.OutOfOfficeBalance" class="form-label"></label>
+                        <input id="employeeOutOfOfficeBalance" asp-for="CreateEmployeeVM.OutOfOfficeBalance"
+                            class="form-control" />
+                        <span asp-validation-for="CreateEmployeeVM.OutOfOfficeBalance" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitEmployeeForm">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div> *@

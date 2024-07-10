@@ -1,6 +1,6 @@
 using FluentValidation.Results;
 
-namespace OutOfOffice.Application.Exceptions;
+namespace OutOfOffice.Shared.Exceptions;
 
 public class ValidationException : ApplicationException
 {

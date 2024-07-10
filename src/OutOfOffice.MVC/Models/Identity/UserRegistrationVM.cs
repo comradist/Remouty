@@ -31,6 +31,9 @@ public class UserRegistrationVM
     [Required]
     public string Role { get; set; }
 
+    
+    public List<Role>? Roles { get; set; }
+
     [Required]
     [MaxLength(100)]
     [EmailAddress(ErrorMessage = "Invalid Email Address")]

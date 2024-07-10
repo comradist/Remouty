@@ -13,7 +13,7 @@ using OutOfOffice.Shared.RequestFeatures;
 namespace OutOfOffice.API.Presentation.Controllers;
 
 [ApiController]
-[Authorize]
+
 [Route("api/leaveRequests")]
 public class LeaveRequestController : ControllerBase
 {

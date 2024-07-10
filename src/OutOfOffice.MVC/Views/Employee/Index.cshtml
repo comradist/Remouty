@@ -3,10 +3,17 @@
 @{
     ViewData["Title"] = "Employees";
 }
-<h5>@ViewData["Title"]</h5>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createEmployeeModal">
-    Add Employee
-</button>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">@ViewData["Title"]</h5>
+    @if (User.IsInRole("Administrator") || User.IsInRole("HR Manager"))
+    {
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createEmployeeModal">
+            Add Employee </button>
+
+    }
+</div>
+
 <!-- Search, Filter, and Sort Card -->
 <div class="card main-content-header">
     <div class="card-body">
@@ -78,7 +85,7 @@
                     placeholder="Enter number"/>
             </div>
             <input type="hidden" name="PageSize" value="@Model.MetaData.PageSize" />
-            <input type="hidden" name="CurrentPage" value="@Model.MetaData.CurrentPage" />
+            <input type="hidden" name="CurrentPage" id="CurrentPage" value="@Model.MetaData.CurrentPage" />
             <input type="hidden" name="OrderBy" id="OrderBy" value="@Model.EmployeeParameters.OrderBy" />
             <div class="col-md-3 form-group d-flex align-items-end">
                     <button type="submit" class="btn btn-primary">Apply Filters</button>
@@ -94,11 +101,12 @@
             <thead class="thead-dark">
                 <tr>
                     <th><a href="#" class="sortable-column" data-column="FullName">Full Name <span class="sort-icon"></span></a></th>
-            <th><a href="#" class="sortable-column" data-column="Subdivision">Subdivision <span class="sort-icon"></span></a></th>
-            <th><a href="#" class="sortable-column" data-column="Position">Position <span class="sort-icon"></span></a></th>
-            <th><a href="#" class="sortable-column" data-column="Status">Status <span class="sort-icon"></span></a></th>
-            <th><a href="#" class="sortable-column" data-column="OutOfOfficeBalance">Out Of Office Balance <span class="sort-icon"></span></a></th>
-            <th>Actions</th>
+                    <th><a href="#" class="sortable-column" data-column="Subdivision">Subdivision <span class="sort-icon"></span></a></th>
+                    <th><a href="#" class="sortable-column" data-column="Position">Position <span class="sort-icon"></span></a></th>
+                    <th><a href="#" class="sortable-column" data-column="Status">Status <span class="sort-icon"></span></a></th>
+                    <th data-column="PeoplePartner">People Partner</th>
+                    <th><a href="#" class="sortable-column" data-column="OutOfOfficeBalance">Out Of Office Balance <span class="sort-icon"></span></a></th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="employeeTableBody">
@@ -109,14 +117,28 @@
                         <td>@item.Subdivision.Name</td>
                         <td>@item.Position.Name</td>
                         <td>@item.Status.Name</td>
+                        <td>@item.PeoplePartner.FullName</td>
                         <td>@item.OutOfOfficeBalance</td>
                         <td>
-                            <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <a class="btn btn-warning" asp-action="Deactivate"
-                                asp-route-id="@item.Id">Deactivate</a>
-                            <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                            <a class="btn btn-success" asp-action="AssignToProject"
-                                asp-route-id="@item.Id">Assign to Project</a>
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-warning" asp-action="Deactivate" asp-route-id="@item.Id">Deactivate</a>
+                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                <a class="btn btn-success" asp-action="AssignToProject" asp-route-id="@item.Id">Assign to
+                                    Project</a>
+                            }
+                            else if (User.IsInRole("HR Manager"))
+                            {
+                                <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-warning" asp-action="Deactivate" asp-route-id="@item.Id">Deactivate</a>
+                            }
+                            else if (User.IsInRole("Project Manager"))
+                            {
+                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                <a class="btn btn-success" asp-action="AssignToProject" asp-route-id="@item.Id">Assign to
+                                    Project</a>
+                            }
                         </td>
                     </tr>
                 }
@@ -309,7 +331,10 @@
                     PeoplePartnerId: $('#employeePeoplePartnerId').val(),
                     OutOfOfficeBalance: parseInt($('#employeeOutOfOfficeBalance').val(), 10)
                 };
-
+                
+                if (formData.PeoplePartnerId === '') {
+                    formData.PeoplePartnerId = null;
+                }
                 // Convert formData to JSON string
                 var jsonString = JSON.stringify(formData);
                 console.log(jsonString);

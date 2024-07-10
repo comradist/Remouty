@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OutOfOffice.MVC.Contracts;
+using OutOfOffice.MVC.Extensions;
 using OutOfOffice.MVC.Models.Employee;
 using OutOfOffice.Shared.RequestFeatures;
 
 [Authorize]
+//[TypeFilter(typeof(CheckTokenExpirationAttribute))]
 public class EmployeeController : Controller
 {
     private readonly IEmployeeService employeeService;
@@ -14,15 +16,7 @@ public class EmployeeController : Controller
         this.employeeService = employeeService;
     }
 
-    // [Authorize(Roles = "HR, Project Manager, Administrator")]
-    // public async Task<IActionResult> Index()
-    // {
-    //     EmployeeParameters employeeParameters = new EmployeeParameters();
-    //     var employees = await employeeService.GetAllEmployeesAsync(employeeParameters);
-    //     return View(employees);
-    // }
-
-    [Authorize(Roles = "HR, Project Manager, Administrator")]
+    [Authorize(Roles = "HR Manager, Project Manager, Administrator")]
     public async Task<IActionResult> Index([FromQuery] EmployeeParameters employeeParameters)
     {
         if (employeeParameters.PageSize == 0 && employeeParameters.CurrentPage == 0)
@@ -35,35 +29,26 @@ public class EmployeeController : Controller
         return View(employeeIndexVM);
     }
 
-    [Authorize(Roles = "HR, Administrator")]
+    [Authorize(Roles = "HR Manager, Administrator")]
     public IActionResult Create()
     {
         return View();
     }
 
     [HttpPost]
-    [Authorize(Roles = "HR, Administrator")]
+    [Authorize(Roles = "HR Manager, Administrator")]
     public IActionResult Create([FromBody] CreateEmployeeVM employee)
     {
-        try
+        if (!ModelState.IsValid || employee == null)
         {
-            // var employee = _mapper.Map<CreateEmployeeVM
-            if (ModelState.IsValid)
-            {
-                employeeService.CreateEmployeeAsync(employee);
-                return Json(new { success = true });
-            }
-            // return View(employee);
             return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)) });
         }
-        catch (Exception ex)
-        {
-            return Json(new { success = false, errors = ex.Message });
-        }
 
+        employeeService.CreateEmployeeAsync(employee);
+        return Json(new { success = true });
     }
 
-    [Authorize(Roles = "HR, Administrator")]
+    [Authorize(Roles = "HR Manager, Administrator")]
     public IActionResult Edit(Guid id)
     {
         // var employee = _context.Employees.FirstOrDefault(e => e.Id == id);
@@ -75,7 +60,7 @@ public class EmployeeController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = "HR, Administrator")]
+    [Authorize(Roles = "HR Manager, Administrator")]
     [ValidateAntiForgeryToken]
     public IActionResult Edit()
     {
@@ -93,7 +78,7 @@ public class EmployeeController : Controller
         return View();
     }
 
-    [Authorize(Roles = "HR")]
+    [Authorize(Roles = "HR Manager, Administrator")]
     public IActionResult Deactivate(Guid id)
     {
         // var employee = _context.Employees.FirstOrDefault(e => e.Id == id);
@@ -108,7 +93,7 @@ public class EmployeeController : Controller
         return View();
     }
 
-    [Authorize(Roles = "Project Manager")]
+    [Authorize(Roles = "Project Manager, Administrator")]
     public IActionResult Details(Guid id)
     {
         // var employee = _context.Employees.FirstOrDefault(e => e.Id == id);
@@ -120,7 +105,7 @@ public class EmployeeController : Controller
         return View();
     }
 
-    [Authorize(Roles = "Project Manager")]
+    [Authorize(Roles = "Project Manager, Administrator")]
     public IActionResult AssignToProject(Guid id)
     {
         // var employee = _context.Employees.FirstOrDefault(e => e.Id == id);

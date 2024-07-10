@@ -1,4 +1,4 @@
-namespace OutOfOffice.Application.Exceptions;
+namespace OutOfOffice.Shared.Exceptions;
 
 public class NotFoundException : ApplicationException
 {

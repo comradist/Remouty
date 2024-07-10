@@ -14,8 +14,11 @@ namespace OutOfOffice.MVC.Services;
 public class EmployeeService : BaseHttpService, IEmployeeService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+
     private readonly IMapper _mapper;
+
     private readonly LookUpTablesConfiguration lookUpTablesConfiguration;
+
     private JwtSecurityTokenHandler _tokenHandler;
 
     public EmployeeService(IClient client, IHttpContextAccessor httpContextAccessor,
@@ -34,15 +37,14 @@ public class EmployeeService : BaseHttpService, IEmployeeService
         return _mapper.Map<EmployeeDto>(employee);
     }
 
-
     public async Task<EmployeeIndexVM> GetAllEmployeesAsync(EmployeeParameters employeeParameters)
     {
-        
+
         var employeesAPIResponse = await _client.EmployeesAllAsync(employeeParameters.FullName, employeeParameters.SubdivisionID,
             employeeParameters.PositionID, employeeParameters.StatusID, employeeParameters.PeoplePartnerId, 
             employeeParameters.Id, employeeParameters.OutOfOfficeBalance, employeeParameters.CurrentPage, 
             employeeParameters.PageSize, filterAndSearchTerm: null, employeeParameters.OrderBy);
-        
+
         var employeesVM = _mapper.Map<List<EmployeeVM>>(employeesAPIResponse.Result);
         var headerPagination = employeesAPIResponse.Headers["X-Pagination"].FirstOrDefault();
         if(string.IsNullOrEmpty(headerPagination))

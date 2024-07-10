@@ -1,0 +1,329 @@
+@model OutOfOffice.MVC.Models.Project.ProjectIndexVM
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">@ViewData["Title"]</h5>
+    @if (User.IsInRole("Administrator") || User.IsInRole("Project Manager"))
+    {
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProjectModal">
+            Add Project
+        </button>
+    }
+</div>
+
+<!-- Search, Filter, and Sort Card -->
+<div class="card main-content-header">
+    <div class="card-body">
+        <form id="filterForm" class="row g-3" method="get" action="@Url.Action("Index", "Project")">
+            <div class="col-md-3 form-group">
+                <label for="projectId">Search by project id</label>
+                <input type="text" name="projectId" id="projectId" placeholder="Enter project id"
+                    value="@Model.ProjectParameters.Id" class="form-control" />
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="projectTypeId">Project type</label>
+                <select name="projectTypeId" id="projectTypeId" class="form-control">
+                    <option value="">All project types</option>
+                    @foreach (var projectType in Model.ProjectTypes)
+                    {
+                        @if (projectType.Id == Model.ProjectParameters.ProjectTypeId)
+                        {
+                            <option value="@projectType.Id" selected>@projectType.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@projectType.Id">@projectType.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="projectStatusId">Project status</label>
+                <select name="projectStatusId" id="projectStatusId" class="form-control">
+                    <option value="">All project status</option>
+                    @foreach (var projectStatus in Model.ProjectStatuses)
+                    {
+                        @if (projectStatus.Id == Model.ProjectParameters.StatusId)
+                        {
+                            <option value="@projectStatus.Id" selected>@projectStatus.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@projectStatus.Id">@projectStatus.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="projectManagerId">Search by project manager id</label>
+                <input type="text" name="projectManagerId" id="projectManagerId" placeholder="Enter project manager id"
+                    value="@Model.ProjectParameters.ProjectManagerId" class="form-control" />
+            </div>
+            @* <div class="col-md-3 form-group">
+                <label for="projectManagerId">Project Manager</label>
+                <select name="projectManagerId" id="projectManagerId" class="form-control">
+                    <option value="">All Managers</option>
+                    @foreach (var employee in Model.Employees)
+                    {
+                        @if(employee.Id == Model.ProjectParameters.ProjectManagerId)
+                        {
+                            <option value="@employee.Id" selected>@employee.FullName</option>
+                        }
+                        else
+                        {
+                            <option value="@employee.Id">@employee.FullName</option>
+                        } 
+                    }
+                </select>
+            </div> *@
+            <input type="hidden" name="PageSize" value="@Model.MetaData.PageSize" />
+            <input type="hidden" name="CurrentPage" id="CurrentPage" value="@Model.MetaData.CurrentPage" />
+            <input type="hidden" name="OrderBy" id="OrderBy" value="@Model.ProjectParameters.OrderBy" />
+            <div class="col-md-3 form-group d-flex align-items-end">
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Project Data Card -->
+<div class="card main-content">
+    <div class="card-body">
+        <table class="table table-bordered table-hover beautiful-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th><a href="#" class="sortable-column" data-column="ProjectType">Project Type <span class="sort-icon"></span></a></th>
+                    <th><a href="#" class="sortable-column" data-column="ProjectName">Project Id <span class="sort-icon"></span></a></th>
+                    <th><a href="#" class="sortable-column" data-column="StartDate">Start Date <span class="sort-icon"></span></a></th>
+                    <th><a href="#" class="sortable-column" data-column="EndDate">End Date <span class="sort-icon"></span></a></th>
+                    <th><a href="#" class="sortable-column" data-column="ProjectManager">Project Manager Id<span class="sort-icon"></span></a></th>
+                    <th><a href="#" class="sortable-column" data-column="Status">Status <span class="sort-icon"></span></a></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="projectTableBody">
+                @foreach (var item in Model.Projects)
+                {
+                    <tr>
+                        <td>@item.ProjectType.Name</td>
+                        <td>@item.Id</td>
+                        <td>@item.StartDate.UtcDateTime.ToShortDateString()</td>
+                        <td>@item.EndDate.UtcDateTime.ToShortDateString()</td>
+                        <td>@item.ProjectManager.Id</td>
+                        <td>@item.Status.Name</td>
+                        <td>
+                            @if (User.IsInRole("Administrator") || User.IsInRole("Project Manager"))
+                            {
+                                <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-warning" asp-action="Deactivate" asp-route-id="@item.Id">Deactivate</a>
+                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                <a class="btn btn-success" asp-action="AssignEmployee" asp-route-id="@item.Id">Assign Employee</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(Model.MetaData.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link pagination-link" href="@Url.Action("Index", "Project")" data-page="@(Model.MetaData.CurrentPage - 1)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                @for (var i = 1; i <= Model.MetaData.TotalPages; i++)
+                {
+                    <li class="page-item @(Model.MetaData.CurrentPage == i ? "active" : "")">
+                        <a class="page-link pagination-link" href="@Url.Action("Index", "Project")" data-page="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.MetaData.CurrentPage == Model.MetaData.TotalPages ? "disabled" : "")">
+                    <a class="page-link pagination-link" href="@Url.Action("Index", "Project")" data-page="@(Model.MetaData.CurrentPage + 1)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- Create Project Modal -->
+<div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createProjectModalLabel">Create Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createProjectForm" asp-controller="Project" asp-action="Create">
+                    <div class="mb-3">
+                        <label asp-for="CreateProjectVM.StartDate" class="form-label"></label>
+                        <input type="date" id="startDate" asp-for="CreateProjectVM.StartDate" class="form-control" />
+                        <span asp-validation-for="CreateProjectVM.StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateProjectVM.EndDate" class="form-label"></label>
+                        <input type="date" id="endDate" asp-for="CreateProjectVM.EndDate" class="form-control" />
+                        <span asp-validation-for="CreateProjectVM.EndDate" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateProjectVM.ProjectManagerId" class="form-label"></label>
+                        <select id="projectManagerId" asp-for="CreateProjectVM.ProjectManagerId" class="form-control">
+                            <option value="">Select Project Manager</option>
+                            @foreach (var employee in Model.Employees)
+                            {
+                                <option value="@employee.Id">@employee.FullName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CreateProjectVM.ProjectManagerId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateProjectVM.Comment" class="form-label"></label>
+                        <textarea id="comment" asp-for="CreateProjectVM.Comment" class="form-control"></textarea>
+                        <span asp-validation-for="CreateProjectVM.Comment" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitProjectForm">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.sortable-column').on('click', function (e) {
+                e.preventDefault();
+
+                var column = $(this).data('column');
+                var currentOrderBy = $('#OrderBy').val();
+                var newOrderBy = column;
+
+                // Toggle ascending/descending order
+                if (currentOrderBy.startsWith(column)) {
+                    if (currentOrderBy.endsWith("asc")) {
+                        newOrderBy += " desc";
+                    } else {
+                        newOrderBy += " asc";
+                    }
+                } else {
+                    newOrderBy += " asc";
+                }
+
+                // Update hidden input value
+                $('#OrderBy').val(newOrderBy);
+
+                // Update sort icons
+                updateSortIcons(column, newOrderBy.endsWith("asc"));
+
+                // Submit form
+                submitForm();
+            });
+
+            // Handle form submission
+            $('#filterForm').on('submit', function (e) {
+                e.preventDefault();
+                updateCurrentPage(1);
+                submitForm();
+            });
+
+            // Handle pagination link clicks
+            $('.pagination').on('click', '.pagination-link', function (e) {
+                e.preventDefault();
+                var page = $(this).data('page');
+                if (!$(this).parent().hasClass('disabled')) {
+                    updateCurrentPage(page);
+                    submitForm();
+                }
+            });
+
+            function updateCurrentPage(page) {
+                $('#CurrentPage').val(page);
+            }
+
+            function submitForm() {
+                var form = $('#filterForm');
+                var action = form.attr('action');
+                var formData = form.serialize();
+                window.location.href = action + '?' + formData;
+            }
+
+            function updateSortIcons(column, isAscending) {
+                $('.sortable-column').each(function () {
+                    var icon = $(this).find('.sort-icon');
+                    if ($(this).data('column') === column) {
+                        icon.html(isAscending ? '&#9650;' : '&#9660;'); // Up arrow for ascending, down arrow for descending
+                    } else {
+                        icon.html(''); // Clear other icons
+                    }
+                });
+            }
+
+            $.validator.unobtrusive.parse('#createProjectForm');
+
+            $('#submitProjectForm').on('click', function () {
+                var form = $('#createProjectForm');
+                if (!form.valid()) return;
+
+                var formData = {
+                    FullName: $('#employeeFullName').val(),
+                    SubdivisionId: parseInt($('#employeeSubdivisionId').val(), 10),
+                    PositionId: parseInt($('#employeePositionId').val(), 10),
+                    StatusId: parseInt($('#employeeStatusId').val(), 10),
+                    PeoplePartnerId: $('#employeePeoplePartnerId').val(),
+                    OutOfOfficeBalance: parseInt($('#employeeOutOfOfficeBalance').val(), 10)
+                };
+
+                if (formData.PeoplePartnerId === '') {
+                    formData.PeoplePartnerId = null;
+                }
+                // Convert formData to JSON string
+                var jsonString = JSON.stringify(formData);
+                console.log(jsonString);
+
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    contentType: 'application/json; charset=UTF-8',
+                    data: jsonString,
+                    success: function (response) {
+                        alert('Employee created successfully!');
+                        $('#createEmployeeModal').modal('hide');
+                        location.reload(); // Reload the page to see the new employee
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error creating employee: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+
+
+        $(document).ready(function () {
+            $(".sortable-column").click(function () {
+                var column = $(this).data("column");
+                var order = $("#OrderBy").val();
+                if (order === column) {
+                    column = column + "_desc";
+                }
+                $("#OrderBy").val(column);
+                $("#filterForm").submit();
+            });
+
+            $(".pagination-link").click(function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                $("#CurrentPage").val(page);
+                $("#filterForm").submit();
+            });
+        });
+    </script>
+}

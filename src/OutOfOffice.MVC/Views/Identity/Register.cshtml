@@ -4,10 +4,11 @@
     ViewData["Title"] = "Register";
 }
 
-<h1 class="text-center">Register</h1>
 
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-4">
+
+<div class="row w-100">
+    <div class="col-md-4 col-lg-3 mx-auto">
+        <h1 class="text-center">Register</h1>
         <div class="card">
             <div class="card-body">
                 <form asp-action="Register" method="post">
@@ -32,10 +33,17 @@
                             placeholder="Enter your password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
-                    <div class="mb-3 form-group">
-                        <label asp-for="Role" class="form-label"></label>
-                        <input asp-for="Role" class="form-control" placeholder="Enter your role" />
-                        <span asp-validation-for="Role" class="text-danger"></span>
+                    <div class="md-3 form-group">
+                        <label asp-for="Role">Role in company</label>
+                        <select asp-for="Role" class="form-select">
+                            @foreach (var role in Model.Roles) // Assuming Model.Positions is available
+                            {
+
+                                <option value="@role.Name">@role.Name</option>
+
+                            }
+                        </select>
+                        @* <span asp-validation-for="Roles" class="text-danger"></span> *@
                     </div>
                     <div class="mb-3 form-group">
                         <label asp-for="Email" class="form-label"></label>
@@ -45,8 +53,12 @@
                     <div class="mb-3 form-group text-center">
                         <button type="submit" class="btn btn-primary btn-block btn-lg">Register</button>
                     </div>
-                    
                 </form>
+
+                <div class="text-center mt-3">
+                    <a asp-action="Login">Login</a>
+                </div>
+
             </div>
         </div>
     </div>

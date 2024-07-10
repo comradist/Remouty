@@ -44,8 +44,8 @@ public class ProjectRepository : GenericRepositoryManager<Project, Guid>, IProje
 
         // Apply paging
         var projects = await query
-            .Skip((projectParameters.PageNumber - 1) * projectParameters.PageSize)
-            .Take(projectParameters.PageSize)
+            // .Skip((projectParameters.PageNumber - 1) * projectParameters.PageSize)
+            // .Take(projectParameters.PageSize)
             .ToListAsync();
 
         // Return the paged list

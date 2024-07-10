@@ -14,7 +14,7 @@ using OutOfOffice.Shared.RequestFeatures;
 namespace OutOfOffice.API.Presentation.Controllers;
 
 [ApiController]
-[Authorize]
+
 [Route("api/approvalRequests")]
 public class ApprovalRequestController : ControllerBase
 {

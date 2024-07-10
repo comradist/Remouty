@@ -9,11 +9,11 @@ public class TokenDtoValidation : AbstractValidator<TokenDto>
         RuleFor(t => t.RefreshToken)
             .NotEmpty().WithMessage("{PropertyName} is required")
             .NotNull()
-            .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters");
+            .MaximumLength(5000).WithMessage("{PropertyName} must not exceed 5000 characters");
 
         RuleFor(p => p.AccessToken)
             .NotEmpty().WithMessage("{PropertyName} is required")
             .NotNull()
-            .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters");
+            .MaximumLength(5000).WithMessage("{PropertyName} must not exceed 5000 characters");
     }
 }

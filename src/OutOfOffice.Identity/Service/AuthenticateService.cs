@@ -13,6 +13,7 @@ using OutOfOffice.Contracts.Infrastructure;
 using OutOfOffice.Shared.DTOs.Identity;
 using OutOfOffice.Contracts.Identity;
 using OutOfOffice.Shared.DTOs.Identity.Validators;
+using OutOfOffice.Shared.Exceptions;
 
 namespace OutOfOffice.Identity.Service;
 
@@ -132,7 +133,7 @@ public class AuthenticateService : IAuthenticateService
 
         if (user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
         {
-            throw new SecurityTokenException("Invalid token");
+            throw new BadRequestException("Invalid token");
         }
 
         this.userApp = user;
@@ -210,7 +211,9 @@ public class AuthenticateService : IAuthenticateService
     public async Task<List<Claim>> GetClaimsAsync()
     {
         var claims = new List<Claim>
-        {
+        { 
+            new Claim(ClaimTypes.Surname, userApp.LastName),
+            new Claim(ClaimTypes.GivenName, userApp.FirstName),
             new Claim(ClaimTypes.Name, userApp.UserName),
             new Claim(ClaimTypes.NameIdentifier, userApp.Id),
             new Claim(ClaimTypes.Email, userApp.Email)
@@ -230,7 +233,8 @@ public class AuthenticateService : IAuthenticateService
             issuer: jwtSettings.Issuer,
             audience: jwtSettings.Audience,
             claims: claims,
-            expires: DateTime.Now.AddHours(jwtSettings.TokenExpiration.Hours),
+            notBefore: DateTime.UtcNow,
+            expires: DateTime.UtcNow.AddHours(jwtSettings.TokenExpiration),
             signingCredentials: signingCredentials
         );
         return tokenOptions;
