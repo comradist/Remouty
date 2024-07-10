@@ -6,6 +6,8 @@ using OutOfOffice.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.ConfigureOptionsJwt(builder.Configuration);
+
 // Configure the services
 builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
@@ -13,6 +15,7 @@ builder.Services.ConfigureInfrastructureServices(builder.Configuration);
 builder.Services.ConfigureIdentityService(builder.Configuration);
 
 builder.Services.ConfigureValidationFilterAttribute();
+builder.Services.ConfigureExtractQueryAttribute();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -27,6 +30,11 @@ builder.Services.AddControllers(config =>
     config.ReturnHttpNotAcceptable = true;
     //config.InputFormatters.Insert(0, JsonPatch.GetJsonPatchInputFormatter());
 }).AddXmlDataContractSerializerFormatters()
+.AddJsonOptions(options => 
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+})
+
 .AddApplicationPart(typeof(OutOfOffice.API.Presentation.AssemblyReference).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();

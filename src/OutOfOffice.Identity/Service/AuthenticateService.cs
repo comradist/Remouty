@@ -12,6 +12,8 @@ using OutOfOffice.Identity.Models;
 using OutOfOffice.Contracts.Infrastructure;
 using OutOfOffice.Shared.DTOs.Identity;
 using OutOfOffice.Contracts.Identity;
+using OutOfOffice.Shared.DTOs.Identity.Validators;
+using OutOfOffice.Shared.Exceptions;
 
 namespace OutOfOffice.Identity.Service;
 
@@ -45,6 +47,14 @@ public class AuthenticateService : IAuthenticateService
     /// <returns>The result of the user registration.</returns>
     public async Task<IdentityResult> RegisterUser(UserRegistrationDto userAuthenticationDto)
     {
+        var validator = new UserRegistrationDtoValidator();
+        var validatorResult = await validator.ValidateAsync(userAuthenticationDto);
+        if (!validatorResult.IsValid)
+        {
+            //throw new ValidationException(validatorResult);
+            throw new Exception("Invalid data");
+        }
+
         var user = mapper.Map<User>(userAuthenticationDto);
         var userExist = await userManager.FindByNameAsync(user.UserName!);
         var emailExist = await userManager.FindByEmailAsync(user.Email!);
@@ -64,7 +74,7 @@ public class AuthenticateService : IAuthenticateService
         var userCreateResult = await userManager.CreateAsync(user, userAuthenticationDto.Password);
         if (userCreateResult.Succeeded)
         {
-            await userManager.AddToRoleAsync(user, "User");
+            await userManager.AddToRoleAsync(user, "Employee");
             return userCreateResult;
         }
         else
@@ -81,6 +91,14 @@ public class AuthenticateService : IAuthenticateService
     /// <returns>True if the user's credentials are valid, otherwise false.</returns>
     public async Task<bool> ValidateUser(UserAuthenticationDto userAuthenticationDto)
     {
+        var validator = new UserAuthenticationDtoValidation();
+        var validatorResult = await validator.ValidateAsync(userAuthenticationDto);
+        if (!validatorResult.IsValid)
+        {
+            //throw new ValidationException(validatorResult);
+            throw new Exception("Invalid data");
+        }
+
         var user = userAuthenticationDto.UserNameOrEmail.Contains('@') ? 
             await userManager.FindByEmailAsync(userAuthenticationDto.UserNameOrEmail) : 
             await userManager.FindByNameAsync(userAuthenticationDto.UserNameOrEmail);
@@ -92,6 +110,34 @@ public class AuthenticateService : IAuthenticateService
         }
         this.userApp = user;
         return result;
+    }
+
+    /// <summary>
+    /// Refreshes the access token using the provided token DTO.
+    /// </summary>
+    /// <param name="tokenDto">The token DTO containing the access token and refresh token.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the refreshed access token.</returns>
+    public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
+    {
+        var validator = new TokenDtoValidation();
+        var validatorResult = await validator.ValidateAsync(tokenDto);
+        if (!validatorResult.IsValid)
+        {
+            //throw new ValidationException(validatorResult);
+            throw new Exception("Invalid data");
+        }
+
+        var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
+
+        var user = await userManager.FindByNameAsync(principal.Identity.Name);
+
+        if (user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+        {
+            throw new BadRequestException("Invalid token");
+        }
+
+        this.userApp = user;
+        return await CreateToken(true);
     }
 
     /// <summary>
@@ -119,26 +165,6 @@ public class AuthenticateService : IAuthenticateService
         var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
         return new TokenDto(accessToken, refreshToken);
-    }
-
-    /// <summary>
-    /// Refreshes the access token using the provided token DTO.
-    /// </summary>
-    /// <param name="tokenDto">The token DTO containing the access token and refresh token.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the refreshed access token.</returns>
-    public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
-    {
-        var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
-
-        var user = await userManager.FindByNameAsync(principal.Identity.Name);
-
-        if (user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-        {
-            throw new SecurityTokenException("Invalid token");
-        }
-
-        this.userApp = user;
-        return await CreateToken(true);
     }
 
     private string GenerateRefreshToken()
@@ -185,8 +211,12 @@ public class AuthenticateService : IAuthenticateService
     public async Task<List<Claim>> GetClaimsAsync()
     {
         var claims = new List<Claim>
-        {
+        { 
+            new Claim(ClaimTypes.Surname, userApp.LastName),
+            new Claim(ClaimTypes.GivenName, userApp.FirstName),
             new Claim(ClaimTypes.Name, userApp.UserName),
+            new Claim(ClaimTypes.NameIdentifier, userApp.Id),
+            new Claim(ClaimTypes.Email, userApp.Email)
         };
 
         var roles = await userManager.GetRolesAsync(userApp);
@@ -203,7 +233,8 @@ public class AuthenticateService : IAuthenticateService
             issuer: jwtSettings.Issuer,
             audience: jwtSettings.Audience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(jwtSettings.TokenExpiration.Minutes),
+            notBefore: DateTime.UtcNow,
+            expires: DateTime.UtcNow.AddHours(jwtSettings.TokenExpiration),
             signingCredentials: signingCredentials
         );
         return tokenOptions;

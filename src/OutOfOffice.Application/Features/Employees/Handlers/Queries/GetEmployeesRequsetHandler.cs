@@ -1,12 +1,13 @@
 using AutoMapper;
 using MediatR;
-using OutOfOffice.Application.Feature.Request.Queries;
 using OutOfOffice.Shared.DTOs.Employee;
 using OutOfOffice.Contracts.Persistence;
+using OutOfOffice.Application.Features.Employees.Requests.Queries;
+using OutOfOffice.Shared.RequestFeatures;
 
 namespace OutOfOffice.Application.Features.Employees.Handlers.Queries;
 
-public class GetEmployeesRequestHandler : IRequestHandler<GetEmployeesRequest, List<EmployeeDto>>
+public class GetEmployeesRequestHandler : IRequestHandler<GetEmployeesRequest, (List<EmployeeDto>, MetaData)>
 {
     private readonly IEmployeeRepository employeeRepository;
     private readonly IMapper mapper;
@@ -17,12 +18,12 @@ public class GetEmployeesRequestHandler : IRequestHandler<GetEmployeesRequest, L
         this.mapper = mapper;
     }
 
-    public async Task<List<EmployeeDto>> Handle(GetEmployeesRequest request, CancellationToken cancellationToken)
+    public async Task<(List<EmployeeDto>, MetaData)> Handle(GetEmployeesRequest request, CancellationToken cancellationToken)
     {
-        var employees = await employeeRepository.GetAllAsync(false) ?? throw new Exception("Employee not found");
+        throw new NotImplementedException();
+        var employees = await employeeRepository.GetAllAsync(request.employeeParameters, false) ?? throw new Exception("Employee not found");
 
         var employeesDto = mapper.Map<List<EmployeeDto>>(employees);
-
-        return employeesDto;
+        //return employeesDto;
     }
 }

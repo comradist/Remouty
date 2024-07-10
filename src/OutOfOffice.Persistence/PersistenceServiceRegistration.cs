@@ -20,6 +20,7 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IApprovalRequestRepository, ApprovalRequestRepository>();
         services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IRepositoryManager, RepositoryManager>();
 
 
         return services;

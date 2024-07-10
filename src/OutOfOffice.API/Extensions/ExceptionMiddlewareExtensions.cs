@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using OutOfOffice.Application.Exceptions;
 using Newtonsoft.Json;
 using OutOfOffice.Contracts.Infrastructure;
+using OutOfOffice.Shared.Exceptions;
 
 namespace OutOfOffice.API.Extensions;
 

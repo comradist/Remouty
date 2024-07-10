@@ -1,0 +1,75 @@
+﻿@model OutOfOffice.MVC.Models.Identity.UserRegistrationVM
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+
+<div class="row w-100">
+    <div class="col-md-4 col-lg-3 mx-auto">
+        <h1 class="text-center">Register</h1>
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Register" method="post">
+                    <div class="mb-3 form-group">
+                        <label asp-for="FirstName" class="form-label"></label>
+                        <input asp-for="FirstName" class="form-control" placeholder="Enter your first name" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label asp-for="LastName" class="form-label"></label>
+                        <input asp-for="LastName" class="form-control" placeholder="Enter your last name" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label asp-for="UserName" class="form-label"></label>
+                        <input asp-for="UserName" class="form-control" placeholder="Enter your username" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" type="password" class="form-control"
+                            placeholder="Enter your password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="md-3 form-group">
+                        <label asp-for="Role">Role in company</label>
+                        <select asp-for="Role" class="form-select">
+                            @foreach (var role in Model.Roles) // Assuming Model.Positions is available
+                            {
+
+                                <option value="@role.Name">@role.Name</option>
+
+                            }
+                        </select>
+                        @* <span asp-validation-for="Roles" class="text-danger"></span> *@
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="Enter your email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-group text-center">
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">Register</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <a asp-action="Login">Login</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-3">
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

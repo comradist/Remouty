@@ -1,0 +1,360 @@
+@model OutOfOffice.MVC.Models.Employee.EmployeeIndexVM
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">@ViewData["Title"]</h5>
+    @if (User.IsInRole("Administrator") || User.IsInRole("HR Manager"))
+    {
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createEmployeeModal">
+            Add Employee </button>
+
+    }
+</div>
+
+<!-- Search, Filter, and Sort Card -->
+<div class="card main-content-header">
+    <div class="card-body">
+        <form id="filterForm" class="row g-3" method="get" action="@Url.Action("Index", "Employee")">
+            <div class="col-md-3 form-group">
+                <label for="fullName">Search by Name</label>
+                <input type="text" name="fullName" id="fullName" placeholder="Enter name" value="@Model.EmployeeParameters.FullName"
+                    class="form-control" />
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="subdivisionId">Subdivision</label>
+                <select name="subdivisionId" id="subdivisionId" class="form-control">
+                    <option value="">All Subdivisions</option>
+                    @foreach (var subdivision in Model.Subdivisions)
+                    {
+                        @if(subdivision.Id == Model.EmployeeParameters.SubdivisionID)
+                        {
+                            <option value="@subdivision.Id" selected>@subdivision.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@subdivision.Id">@subdivision.Name</option>
+                        } 
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="positionId">Position</label>
+                <select name="positionId" id="positionId" class="form-control">
+                    <option value="">All Positions</option>
+                    @foreach (var position in Model.Positions) // Assuming Model.Positions is available
+                    {
+                        @if(position.Id == Model.EmployeeParameters.PositionID)
+                        {
+                            <option value="@position.Id" selected>@position.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@position.Id">@position.Name</option>
+                        } 
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="statusId">Status</label>
+                <select name="statusId" id="statusId" class="form-control">
+                    <option value="">All Statuses</option>
+                    @foreach (var status in Model.RequestStatuses)
+                    {
+                        @if(status.Id == Model.EmployeeParameters.StatusID)
+                        {
+                            <option value="@status.Id" selected>@status.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@status.Id">@status.Name</option>
+                        } 
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="peoplePartnerName">People Partner</label>
+                <input type="text" name="PeoplePartnerId" id="peoplePartnerName" placeholder="Enter id" value="@Model.EmployeeParameters.PeoplePartnerId"
+                    class="form-control" />
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="OutOfOfficeBalance">Out Of Office Balance</label>
+                <input type="number" name="OutOfOfficeBalance" id="OutOfOfficeBalance" class="form-control" value="@Model.EmployeeParameters.OutOfOfficeBalance"
+                    placeholder="Enter number"/>
+            </div>
+            <input type="hidden" name="PageSize" value="@Model.MetaData.PageSize" />
+            <input type="hidden" name="CurrentPage" id="CurrentPage" value="@Model.MetaData.CurrentPage" />
+            <input type="hidden" name="OrderBy" id="OrderBy" value="@Model.EmployeeParameters.OrderBy" />
+            <div class="col-md-3 form-group d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Employee Data Card -->
+<div class="card main-content">
+    <div class="card-body">
+        <table class="table table-bordered table-hover beautiful-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th><a href="#" class="sortable-column" data-column="FullName">Full Name <span class="sort-icon"></span></a></th>
+                    <th><a href="#" class="sortable-column" data-column="Subdivision">Subdivision <span class="sort-icon"></span></a></th>
+                    <th><a href="#" class="sortable-column" data-column="Position">Position <span class="sort-icon"></span></a></th>
+                    <th><a href="#" class="sortable-column" data-column="Status">Status <span class="sort-icon"></span></a></th>
+                    <th data-column="PeoplePartner">People Partner</th>
+                    <th><a href="#" class="sortable-column" data-column="OutOfOfficeBalance">Out Of Office Balance <span class="sort-icon"></span></a></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="employeeTableBody">
+                @foreach (var item in Model.Employees)
+                {
+                    <tr>
+                        <td>@item.FullName</td>
+                        <td>@item.Subdivision.Name</td>
+                        <td>@item.Position.Name</td>
+                        <td>@item.Status.Name</td>
+                        <td>@item.PeoplePartner.FullName</td>
+                        <td>@item.OutOfOfficeBalance</td>
+                        <td>
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-warning" asp-action="Deactivate" asp-route-id="@item.Id">Deactivate</a>
+                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                <a class="btn btn-success" asp-action="AssignToProject" asp-route-id="@item.Id">Assign to
+                                    Project</a>
+                            }
+                            else if (User.IsInRole("HR Manager"))
+                            {
+                                <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-warning" asp-action="Deactivate" asp-route-id="@item.Id">Deactivate</a>
+                            }
+                            else if (User.IsInRole("Project Manager"))
+                            {
+                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                <a class="btn btn-success" asp-action="AssignToProject" asp-route-id="@item.Id">Assign to
+                                    Project</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(Model.MetaData.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link pagination-link" href="@Url.Action("Index", "Employee")" data-page="@(Model.MetaData.CurrentPage - 1)" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                @for (var i = 1; i <= Model.MetaData.TotalPages; i++)
+                {
+                    <li class="page-item @(Model.MetaData.CurrentPage == i ? "active" : "")">
+                        <a class="page-link pagination-link" href="@Url.Action("Index", "Employee")" data-page="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.MetaData.CurrentPage == Model.MetaData.TotalPages ? "disabled" : "")">
+                    <a class="page-link pagination-link" href="@Url.Action("Index", "Employee")" data-page="@(Model.MetaData.CurrentPage + 1)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+
+
+<!-- Create Employee Modal -->
+<div class="modal fade" id="createEmployeeModal" tabindex="-1" aria-labelledby="createEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createEmployeeModalLabel">Create Employee</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createEmployeeForm" asp-controller="Employee" asp-action="Create">
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.FullName" class="form-label"></label>
+                        <input id="employeeFullName" asp-for="CreateEmployeeVM.FullName" class="form-control" />
+                        <span asp-validation-for="CreateEmployeeVM.FullName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.SubdivisionId" class="form-label"></label>
+                        <select id="employeeSubdivisionId" asp-for="CreateEmployeeVM.SubdivisionId"
+                            class="form-control">
+                            <option value="">Select Subdivision</option>
+                            @foreach (var subdivision in Model.Subdivisions)
+                            {
+                                <option value="@subdivision.Id">@subdivision.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CreateEmployeeVM.SubdivisionId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.PositionId" class="form-label"></label>
+                        <select id="employeePositionId" asp-for="CreateEmployeeVM.PositionId" class="form-control">
+                            <option value="">Select Position</option>
+                            @foreach (var position in Model.Positions)
+                            {
+                                <option value="@position.Id">@position.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CreateEmployeeVM.PositionId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.StatusId" class="form-label"></label>
+                        <select id="employeeStatusId" asp-for="CreateEmployeeVM.StatusId" class="form-control">
+                            <option value="">Select Status</option>
+                            @foreach (var status in Model.RequestStatuses)
+                            {
+                                <option value="@status.Id">@status.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CreateEmployeeVM.StatusId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.PeoplePartnerId" class="form-label"></label>
+                        <input id="employeePeoplePartnerId" asp-for="CreateEmployeeVM.PeoplePartnerId"
+                            class="form-control" />
+                        <span asp-validation-for="CreateEmployeeVM.PeoplePartnerId"
+                            class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CreateEmployeeVM.OutOfOfficeBalance" class="form-label"></label>
+                        <input id="employeeOutOfOfficeBalance" asp-for="CreateEmployeeVM.OutOfOfficeBalance"
+                            class="form-control" />
+                        <span asp-validation-for="CreateEmployeeVM.OutOfOfficeBalance"
+                            class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitEmployeeForm">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+            $('.sortable-column').on('click', function (e) {
+                e.preventDefault();
+
+                var column = $(this).data('column');
+                var currentOrderBy = $('#OrderBy').val();
+                var newOrderBy = column;
+
+                // Toggle ascending/descending order
+                if (currentOrderBy.startsWith(column)) {
+                    if (currentOrderBy.endsWith("asc")) {
+                        newOrderBy += " desc";
+                    } else {
+                        newOrderBy += " asc";
+                    }
+                } else {
+                    newOrderBy += " asc";
+                }
+
+                // Update hidden input value
+                $('#OrderBy').val(newOrderBy);
+
+                // Update sort icons
+                updateSortIcons(column, newOrderBy.endsWith("asc"));
+
+                // Submit form
+                submitForm();
+            });
+
+            // Handle form submission
+            $('#filterForm').on('submit', function (e) {
+                e.preventDefault();
+                updateCurrentPage(1);
+                submitForm();
+            });
+
+            // Handle pagination link clicks
+            $('.pagination').on('click', '.pagination-link', function (e) {
+                e.preventDefault();
+                var page = $(this).data('page');
+                if (!$(this).parent().hasClass('disabled')) {
+                    updateCurrentPage(page);
+                    submitForm();
+                }
+            });
+
+            function updateCurrentPage(page) {
+                $('#CurrentPage').val(page);
+            }
+
+            function submitForm() {
+                var form = $('#filterForm');
+                var action = form.attr('action');
+                var formData = form.serialize();
+                window.location.href = action + '?' + formData;
+            }
+
+            function updateSortIcons(column, isAscending) {
+                $('.sortable-column').each(function() {
+                    var icon = $(this).find('.sort-icon');
+                    if ($(this).data('column') === column) {
+                        icon.html(isAscending ? '&#9650;' : '&#9660;'); // Up arrow for ascending, down arrow for descending
+                    } else {
+                        icon.html(''); // Clear other icons
+                    }
+                });
+            }
+
+            $.validator.unobtrusive.parse('#createEmployeeForm');
+
+            $('#submitEmployeeForm').on('click', function () {
+                var form = $('#createEmployeeForm');
+                if (!form.valid()) return;
+
+                var formData = {
+                    FullName: $('#employeeFullName').val(),
+                    SubdivisionId: parseInt($('#employeeSubdivisionId').val(), 10),
+                    PositionId: parseInt($('#employeePositionId').val(), 10),
+                    StatusId: parseInt($('#employeeStatusId').val(), 10),
+                    PeoplePartnerId: $('#employeePeoplePartnerId').val(),
+                    OutOfOfficeBalance: parseInt($('#employeeOutOfOfficeBalance').val(), 10)
+                };
+                
+                if (formData.PeoplePartnerId === '') {
+                    formData.PeoplePartnerId = null;
+                }
+                // Convert formData to JSON string
+                var jsonString = JSON.stringify(formData);
+                console.log(jsonString);
+
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    contentType: 'application/json; charset=UTF-8',
+                    data: jsonString,
+                    success: function (response) {
+                        alert('Employee created successfully!');
+                        $('#createEmployeeModal').modal('hide');
+                        location.reload(); // Reload the page to see the new employee
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error creating employee: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}
+

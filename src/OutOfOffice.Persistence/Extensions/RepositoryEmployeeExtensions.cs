@@ -4,38 +4,23 @@ using System.Text;
 using System.Linq.Dynamic.Core;
 using OutOfOffice.Domain.Models.Entities;
 using OutOfOffice.Persistence.Extensions.Utility;
+using Microsoft.EntityFrameworkCore;
 
 namespace OutOfOffice.Persistence.Extensions;
 
 public static class RepositoryEmployeeExtensions
 {
-    public static IQueryable<Employee> FilterEmployees(this IQueryable<Employee> employees, uint min, uint max)
+    public static IQueryable<Employee> FilterAndSearch(this IQueryable<Employee> employees, string filterQueryString)
     {
-        // var returnEmloyees = employees.Where(x => x.Age >= min && x.Age <= max);
-        // if (!returnEmloyees.Any())
-        // {
-        //     throw new CollectionBySearchParamBadRequest($"Not found any employees between {min} and {max} parameters");
-        // }
-        // return returnEmloyees;
-        throw new NotImplementedException();
-    }
-
-    public static IQueryable<Employee> Search(this IQueryable<Employee> employees, string searchVar)
-    {
-        if (string.IsNullOrWhiteSpace(searchVar))
+        if (string.IsNullOrWhiteSpace(filterQueryString))
         {
             return employees;
         }
 
-        var lowerCaseTerm = searchVar.Trim().ToLower();
+        var (filterQuery, parameters) = FilterQueryBuilder.CreateFilterQueryWithParameters<Employee>(filterQueryString);
+        var filteredEmployees = employees.Where(filterQuery);
 
-        var returnEmployees = employees.Where(x => x.FullName.ToLower().Contains(lowerCaseTerm));
-        if (!returnEmployees.Any())
-        {
-            //throw new CollectionBySearchParamBadRequest($"Not found any employees with searched term {searchVar}");
-            throw new NotImplementedException();
-        }
-        return returnEmployees;
+        return filteredEmployees;
     }
 
     public static IQueryable<Employee> Sort(this IQueryable<Employee> employees, string orderByQueryString)
@@ -55,5 +40,13 @@ public static class RepositoryEmployeeExtensions
         //employees.OrderBy(item => item.Name).ThenByDescending(item => item.Age);
         return employees.OrderBy(orderQuery);
     }
+
+    // public static IQueryable<Employee> IncludeAllRelatedData(this IQueryable<Employee> employees)
+    // {
+    //     return employees.Include(x => x.Subdivision)
+    //         .Include(x => x.Position)
+    //         .Include(x => x.PeoplePartner)
+    //         .Include(x => x.Status);
+    // }
 
 }

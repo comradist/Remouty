@@ -1,0 +1,48 @@
+﻿@model OutOfOffice.MVC.Models.Identity.UserAuthenticationVM
+
+
+@{
+    ViewBag.Layout = "~/Views/Identity/_IdentityLayout";
+    ViewData["Title"] = "Login";
+}
+
+
+<div class="row w-100">
+    <div class="col-md-4 col-lg-3 mx-auto">
+        <h1 class="text-center">Login</h1>
+        <div class="card main-content">
+            <div class="card-body ">
+                <form id="loginForm" asp-action="Login">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ReturnUrl" />
+                    <div class="mb-3 form-group">
+                        <label asp-for="UserNameOrEmail" class="form-label"></label>
+                        <input asp-for="UserNameOrEmail" class="form-control"
+                            placeholder="Enter your username or email" />
+                        <span asp-validation-for="UserNameOrEmail" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-group">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" type="password" class="form-control"
+                            placeholder="Enter your password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-group text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                    </div>
+                </form>
+                <div class="text-center mt-1">
+                    <a asp-action="Register">Registrate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/login.js"></script> *@
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

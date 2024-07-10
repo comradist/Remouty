@@ -1,5 +1,7 @@
+using OutOfOffice.Domain.Models.Entities;
 using OutOfOffice.Domain.Models.Entities.LookUpTables;
 using OutOfOffice.Shared.DTOs.Common;
+using OutOfOffice.Shared.DTOs.Project;
 
 namespace OutOfOffice.Shared.DTOs.Employee;
 
@@ -18,4 +20,6 @@ public class EmployeeDto : BaseDto
     public int OutOfOfficeBalance { get; set; }
 
     public byte[]? Photo { get; set; }
+
+    public ICollection<ProjectDto>? Projects { get; set; } = new List<ProjectDto>();
 }
