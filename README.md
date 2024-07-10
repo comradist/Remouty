@@ -2,3 +2,5 @@
 ![Screenshot from 2024-07-10 13-37-49](https://github.com/comradist/Remouty/assets/81923026/bc7eb49b-9d56-4292-b694-be081237fa6b)
 ![Screenshot from 2024-07-10 13-38-02](https://github.com/comradist/Remouty/assets/81923026/336f3bee-8798-4f86-b326-459773c60b20)
 ![Screenshot from 2024-07-10 13-38-08](https://github.com/comradist/Remouty/assets/81923026/96c6d8cd-9594-4408-a1eb-9b59985ed28e)
+![Screenshot from 2024-07-10 13-40-50](https://github.com/comradist/Remouty/assets/81923026/a0e8eb5b-8af5-4273-8a9d-b1a20078b038)
+![Screenshot from 2024-07-10 13-40-43](https://github.com/comradist/Remouty/assets/81923026/6ed2caa7-fe5d-407e-9f07-377af5494dfe)
